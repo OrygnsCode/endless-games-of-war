@@ -1,0 +1,57 @@
+Final output lines of the long runs, copied verbatim from the saved outputs of the programs in this
+repository. a(14), a(15) and the 16-card position scans, with either card first, were each computed by
+at least two of them. The two n = 17 lines at the end are one sample of 10^9 deals, played with both cycle
+tests of gpu/war24.py.
+
+$ cd gpu; python war_gpu.py 14 --half --hist 256;  python war_gpu.py 15 --hist 256
+n=14  a(n)=3790165176  of 87178291200  longest finite=461 rounds  163.9s  (half)
+   loop lengths (rounds: deals): 96: 61184620, 112: 3728980556
+n=15  a(n)=1095264882758  of 1307674368000  longest finite=80 rounds  4252.4s
+   loop lengths (rounds: deals): 48: 723147809952, 80: 372117072806
+
+$ cd gpu; python war_gpu.py 14 --canon --distinct --shape --hist 256
+n=14  canonical positions cycling=2872129173  of 80951270400  longest finite=465 rounds  596.6s
+   distinct cycles (up to swapping players): 26640   [on-cycle canonical positions by weight: {12: 4320, 14: 241920, 24: 8640, 28: 241920}]
+   loop shape: 2872129173 cycling positions checked for runs of exactly 2; not that shape: 43669233; too long to check: 0
+   loop lengths (rounds: positions): 96: 43669233, 112: 2828459940
+
+$ cd gpu; python war_gpu.py 16 --canon --shape
+n=16  canonical positions cycling=0  of 19615115520000  longest finite=261 rounds  13551.8s
+   loop shape: 0 cycling positions checked for runs of exactly 16; not that shape: 0; too long to check: 0
+
+$ cd gpu; python war_gpu.py 14 --rule 1 --half;  python war_gpu.py 15 --rule 1   (losing card first)
+n=14  a(n)=4544440488  of 87178291200  longest finite=471 rounds  226.5s  (half)
+n=15  a(n)=1173142165027  of 1307674368000  longest finite=67 rounds  8756.4s
+
+$ cd gpu; python war_gpu_floyd.py 13;  python war_gpu_floyd.py 13 --canon --q1;  python war_gpu_floyd.py 14 --half --q1;
+  python war_gpu_floyd.py 14 --canon --q1;  python war_gpu_floyd.py 15;  python war_gpu_floyd.py 16 --canon --q1
+n=13 half=False deals_simulated=6227020800 (expected 6227020800) cycling_found=4880546113 a(n)=4880546113 longest_finite=57 time=27.0s
+n=13 CANON positions_simulated=5748019200 (expected 5748019200) cycling_canonical_positions=3609048460 cycle_exists=YES q1_nonTheorem3_loops=0 (block=1) time=43.9s
+n=14 half=True deals_simulated=43589145600 (expected 43589145600) cycling_found=1895082588 a(n)=3790165176 longest_finite=461 q1_nonTheorem3_loops=30592310 (block=2) time=261.0s
+n=14 CANON positions_simulated=80951270400 (expected 80951270400) cycling_canonical_positions=2872129173 cycle_exists=YES q1_nonTheorem3_loops=43669233 (block=2) time=509.3s
+n=15 half=False deals_simulated=1307674368000 (expected 1307674368000) cycling_found=1095264882758 a(n)=1095264882758 longest_finite=80 time=5551.1s
+n=16 CANON positions_simulated=19615115520000 (expected 19615115520000) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=16) time=7666.8s
+
+$ cd cpu; ./war 14 0;  ./war 14 1;  ./war 15 0   (mode 0 = winning card first, mode 1 = losing card first)
+n=14 mode=0 deals=87178291200 cycling=3790165176 longest_finite=461
+n=14 mode=1 deals=87178291200 cycling=4544440488 longest_finite=471
+n=15 mode=0 deals=1307674368000 cycling=1095264882758 longest_finite=80
+
+$ cd gpu; python war_gpu_floyd.py 15 --loser-first --chunk 64
+n=15 rule=loser_first half=False deals_simulated=1307674368000 (expected 1307674368000) cycling_found=1173142165027 a(n)=1173142165027 longest_finite=67 time=8799.3s
+
+$ cd gpu; python war_gpu.py 16 --canon --rule 1;  python war_gpu_floyd.py 16 --canon --loser-first --chunk 64   (losing card first)
+n=16  canonical positions cycling=0  of 19615115520000  longest finite=406 rounds  45196.7s
+n=16 rule=loser_first CANON positions_simulated=19615115520000 (expected 19615115520000) cycling_canonical_positions=0 cycle_exists=NO time=26273.3s
+
+$ cd cpu; ./loser_first 14 12   (losing card first)
+loser-first n=14: deals 87178291200, never end 4544440488, longest ending game 471
+
+$ cd cpu; ./war_floyd 14 0
+sA=7 n=14 rule=0 cyc=3790165176 tot=87178291200 maxrounds=461
+
+$ cd gpu; python war24.py 14 --det floyd;  python war24.py 17 --det floyd --start 100000000000000 --count 1000000000;
+  python war24.py 17 --det streak --start 100000000000000 --count 1000000000
+n=14 det=floyd range=[0,87178291200) deals_simulated=87178291200 (expected 87178291200) cycling=3790165176 longest_finite=461 undetermined=0 time=148.5s
+n=17 det=floyd range=[100000000000000,100001000000000) deals_simulated=1000000000 (expected 1000000000) cycling=876533813 longest_finite=90 undetermined=0 time=7.1s
+n=17 det=streak range=[100000000000000,100001000000000) deals_simulated=1000000000 (expected 1000000000) cycling=876533813 longest_finite=90 undetermined=0 time=5.4s

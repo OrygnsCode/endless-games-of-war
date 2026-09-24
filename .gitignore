@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.progress
+*.progress.tmp
+*.ckpt
+*.exe
+*.o
+# compiled programs in cpu/ (keep only the sources)
+cpu/*
+!cpu/*.c
+!cpu/*.cpp

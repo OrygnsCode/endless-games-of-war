@@ -1,0 +1,1059 @@
+Output of the checks behind the paper, as the programs in this repository print it. Each block gives
+the command (run from the repository root), then the output. Progress output is left out.
+
+== Deals, n = 1..13 (loop lengths = cycle lengths)
+$ cd gpu; python war_gpu.py 13 --nmin 1 --hist 256
+n=1  a(n)=0  of 1  longest finite=0 rounds  0.0s
+n=2  a(n)=0  of 2  longest finite=1 rounds  0.0s
+n=3  a(n)=0  of 6  longest finite=3 rounds  0.0s
+n=4  a(n)=0  of 24  longest finite=6 rounds  0.0s
+n=5  a(n)=30  of 120  longest finite=8 rounds  0.0s
+   loop lengths (rounds: deals): 6: 30
+n=6  a(n)=0  of 720  longest finite=15 rounds  0.0s
+n=7  a(n)=2304  of 5040  longest finite=15 rounds  0.0s
+   loop lengths (rounds: deals): 8: 2304
+n=8  a(n)=0  of 40320  longest finite=26 rounds  0.0s
+n=9  a(n)=218680  of 362880  longest finite=28 rounds  0.0s
+   loop lengths (rounds: deals): 20: 98503, 30: 120177
+n=10  a(n)=395940  of 3628800  longest finite=49 rounds  0.0s
+   loop lengths (rounds: deals): 60: 395940
+n=11  a(n)=28223770  of 39916800  longest finite=41 rounds  0.0s
+   loop lengths (rounds: deals): 12: 19702562, 24: 8521208
+n=12  a(n)=0  of 479001600  longest finite=74 rounds  0.4s
+n=13  a(n)=4880546113  of 6227020800  longest finite=57 rounds  15.3s
+   loop lengths (rounds: deals): 42: 1475465743, 56: 2394985450, 70: 1010094920
+
+== Deals, second GPU program
+$ cd gpu; for n in $(seq 2 12); do python war_gpu_floyd.py $n; done;  python war_gpu_floyd.py 10 --half
+n=2 half=False deals_simulated=2 (expected 2) cycling_found=0 a(n)=0 longest_finite=1 time=0.0s
+n=3 half=False deals_simulated=6 (expected 6) cycling_found=0 a(n)=0 longest_finite=3 time=0.0s
+n=4 half=False deals_simulated=24 (expected 24) cycling_found=0 a(n)=0 longest_finite=6 time=0.0s
+n=5 half=False deals_simulated=120 (expected 120) cycling_found=30 a(n)=30 longest_finite=8 time=0.0s
+n=6 half=False deals_simulated=720 (expected 720) cycling_found=0 a(n)=0 longest_finite=15 time=0.0s
+n=7 half=False deals_simulated=5040 (expected 5040) cycling_found=2304 a(n)=2304 longest_finite=15 time=0.0s
+n=8 half=False deals_simulated=40320 (expected 40320) cycling_found=0 a(n)=0 longest_finite=26 time=0.0s
+n=9 half=False deals_simulated=362880 (expected 362880) cycling_found=218680 a(n)=218680 longest_finite=28 time=0.0s
+n=10 half=False deals_simulated=3628800 (expected 3628800) cycling_found=395940 a(n)=395940 longest_finite=49 time=0.0s
+n=11 half=False deals_simulated=39916800 (expected 39916800) cycling_found=28223770 a(n)=28223770 longest_finite=41 time=0.1s
+n=12 half=False deals_simulated=479001600 (expected 479001600) cycling_found=0 a(n)=0 longest_finite=74 time=0.5s
+n=10 half=True deals_simulated=1814400 (expected 1814400) cycling_found=197970 a(n)=395940 longest_finite=49 time=0.1s
+
+== Deals, CPU program 1
+$ cd cpu; for n in $(seq 2 13); do ./war $n 0; done
+n=2 mode=0 deals=2 cycling=0 longest_finite=1
+n=3 mode=0 deals=6 cycling=0 longest_finite=3
+n=4 mode=0 deals=24 cycling=0 longest_finite=6
+n=5 mode=0 deals=120 cycling=30 longest_finite=8
+n=6 mode=0 deals=720 cycling=0 longest_finite=15
+n=7 mode=0 deals=5040 cycling=2304 longest_finite=15
+n=8 mode=0 deals=40320 cycling=0 longest_finite=26
+n=9 mode=0 deals=362880 cycling=218680 longest_finite=28
+n=10 mode=0 deals=3628800 cycling=395940 longest_finite=49
+n=11 mode=0 deals=39916800 cycling=28223770 longest_finite=41
+n=12 mode=0 deals=479001600 cycling=0 longest_finite=74
+n=13 mode=0 deals=6227020800 cycling=4880546113 longest_finite=57
+
+== Deals, CPU program 2
+$ cd cpu; for n in $(seq 2 13); do ./war_floyd $n 0; done
+sA=1 n=2 rule=0 cyc=0 tot=2 maxrounds=1
+sA=2 n=3 rule=0 cyc=0 tot=6 maxrounds=3
+sA=2 n=4 rule=0 cyc=0 tot=24 maxrounds=6
+sA=3 n=5 rule=0 cyc=30 tot=120 maxrounds=8
+sA=3 n=6 rule=0 cyc=0 tot=720 maxrounds=15
+sA=4 n=7 rule=0 cyc=2304 tot=5040 maxrounds=15
+sA=4 n=8 rule=0 cyc=0 tot=40320 maxrounds=26
+sA=5 n=9 rule=0 cyc=218680 tot=362880 maxrounds=28
+sA=5 n=10 rule=0 cyc=395940 tot=3628800 maxrounds=49
+sA=6 n=11 rule=0 cyc=28223770 tot=39916800 maxrounds=41
+sA=6 n=12 rule=0 cyc=0 tot=479001600 maxrounds=74
+sA=7 n=13 rule=0 cyc=4880546113 tot=6227020800 maxrounds=57
+
+== Deals, 5-bit GPU program
+$ cd gpu; for n in 5 7 9 11 13; do python war24.py $n --det streak; done;  python war24.py 10 --det floyd;  python war24.py 12 --det floyd
+n=5 det=streak range=[0,120) deals_simulated=120 (expected 120) cycling=30 longest_finite=8 undetermined=0 time=0.0s
+n=7 det=streak range=[0,5040) deals_simulated=5040 (expected 5040) cycling=2304 longest_finite=15 undetermined=0 time=0.0s
+n=9 det=streak range=[0,362880) deals_simulated=362880 (expected 362880) cycling=218680 longest_finite=28 undetermined=0 time=0.0s
+n=11 det=streak range=[0,39916800) deals_simulated=39916800 (expected 39916800) cycling=28223770 longest_finite=41 undetermined=0 time=0.1s
+n=13 det=streak range=[0,6227020800) deals_simulated=6227020800 (expected 6227020800) cycling=4880546113 longest_finite=57 undetermined=0 time=19.9s
+n=10 det=floyd range=[0,3628800) deals_simulated=3628800 (expected 3628800) cycling=395940 longest_finite=49 undetermined=0 time=0.0s
+n=12 det=floyd range=[0,479001600) deals_simulated=479001600 (expected 479001600) cycling=0 longest_finite=74 undetermined=0 time=0.5s
+
+== Deals, 17-card GPU program
+$ cd gpu; python war17.py 13 --nmin 5
+n=5  a(n)=30  of 120 deals  longest finite=8  0.0s  slowest launch 0.001s
+n=6  a(n)=0  of 720 deals  longest finite=15  0.0s  slowest launch 0.001s
+n=7  a(n)=2304  of 5040 deals  longest finite=15  0.0s  slowest launch 0.000s
+n=8  a(n)=0  of 40320 deals  longest finite=26  0.0s  slowest launch 0.001s
+n=9  a(n)=218680  of 362880 deals  longest finite=28  0.0s  slowest launch 0.002s
+n=10  a(n)=395940  of 3628800 deals  longest finite=49  0.0s  slowest launch 0.006s
+n=11  a(n)=28223770  of 39916800 deals  longest finite=41  0.1s  slowest launch 0.043s
+n=12  a(n)=0  of 479001600 deals  longest finite=74  0.7s  slowest launch 0.057s
+n=13  a(n)=4880546113  of 6227020800 deals  longest finite=57  28.7s  slowest launch 0.079s
+
+== Plain simulators
+$ cd reference; python war_ref.py 9;  python oeis_program.py
+n=1  a(n)=0
+n=2  a(n)=0
+n=3  a(n)=0
+n=4  a(n)=0
+n=5  a(n)=30
+n=6  a(n)=0
+n=7  a(n)=2304
+n=8  a(n)=0
+n=9  a(n)=218680
+[0, 0, 0, 0, 30, 0, 2304, 0, 218680, 395940]
+
+== Every position, n = 9 and 12
+$ cd cpu; ./war_all 9 0;  ./war_all 12 0;  for s in 1 2 3 4 5 6 7 8; do ./war_floyd 9 0 $s; done;  for s in $(seq 1 11); do ./war_floyd 12 0 $s; done
+n=9 mode=0 positions=2903040 cycling=1155462 longest_finite=31
+n=12 mode=0 positions=5269017600 cycling=0 longest_finite=79
+sA=1 n=9 rule=0 cyc=58735 tot=362880 maxrounds=31
+sA=2 n=9 rule=0 cyc=122109 tot=362880 maxrounds=30
+sA=3 n=9 rule=0 cyc=178207 tot=362880 maxrounds=29
+sA=4 n=9 rule=0 cyc=218680 tot=362880 maxrounds=28
+sA=5 n=9 rule=0 cyc=218680 tot=362880 maxrounds=28
+sA=6 n=9 rule=0 cyc=178207 tot=362880 maxrounds=29
+sA=7 n=9 rule=0 cyc=122109 tot=362880 maxrounds=30
+sA=8 n=9 rule=0 cyc=58735 tot=362880 maxrounds=31
+sA=1 n=12 rule=0 cyc=0 tot=479001600 maxrounds=79
+sA=2 n=12 rule=0 cyc=0 tot=479001600 maxrounds=78
+sA=3 n=12 rule=0 cyc=0 tot=479001600 maxrounds=77
+sA=4 n=12 rule=0 cyc=0 tot=479001600 maxrounds=76
+sA=5 n=12 rule=0 cyc=0 tot=479001600 maxrounds=75
+sA=6 n=12 rule=0 cyc=0 tot=479001600 maxrounds=74
+sA=7 n=12 rule=0 cyc=0 tot=479001600 maxrounds=75
+sA=8 n=12 rule=0 cyc=0 tot=479001600 maxrounds=76
+sA=9 n=12 rule=0 cyc=0 tot=479001600 maxrounds=77
+sA=10 n=12 rule=0 cyc=0 tot=479001600 maxrounds=78
+sA=11 n=12 rule=0 cyc=0 tot=479001600 maxrounds=79
+
+== Canonical positions against every position, n <= 9
+$ cd cycles; python canon_check.py 9
+n=1: states all=0 canon=0 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=2: states all=2 canon=1 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=3: states all=12 canon=4 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=4: states all=72 canon=18 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=5: states all=480 canon=96 | distinct cycles all=4 canon-scan=2 (up to swap: 2 vs 2) same=True | cycles reachable from deals=4
+n=6: states all=3600 canon=600 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=7: states all=30240 canon=4320 | distinct cycles all=104 canon-scan=52 (up to swap: 52 vs 52) same=True | cycles reachable from deals=104
+n=8: states all=282240 canon=35280 | distinct cycles all=0 canon-scan=0 (up to swap: 0 vs 0) same=True | cycles reachable from deals=0
+n=9: states all=2903040 canon=322560 | distinct cycles all=672 canon-scan=336 (up to swap: 336 vs 336) same=True | cycles reachable from deals=672
+
+== Canonical positions, distinct cycles and the Theorem-3 test, n = 1..13
+$ cd gpu; python war_gpu.py 4 --nmin 1 --canon --distinct --shape;  python war_gpu.py 13 --nmin 5 --canon --distinct --shape
+n=1  canonical positions cycling=0  of 0  longest finite=0 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=2  canonical positions cycling=0  of 1  longest finite=1 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 2; not that shape: 0; too long to check: 0
+n=3  canonical positions cycling=0  of 4  longest finite=2 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=4  canonical positions cycling=0  of 18  longest finite=7 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 4; not that shape: 0; too long to check: 0
+n=5  canonical positions cycling=18  of 96  longest finite=8 rounds  0.0s
+   distinct cycles (up to swapping players): 2   [on-cycle canonical positions by weight: {3: 6}]
+   loop shape: 18 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=6  canonical positions cycling=0  of 600  longest finite=17 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 2; not that shape: 0; too long to check: 0
+n=7  canonical positions cycling=1572  of 4320  longest finite=16 rounds  0.0s
+   distinct cycles (up to swapping players): 52   [on-cycle canonical positions by weight: {2: 64, 4: 80}]
+   loop shape: 1572 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=8  canonical positions cycling=0  of 35280  longest finite=29 rounds  0.0s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 8; not that shape: 0; too long to check: 0
+n=9  canonical positions cycling=153410  of 322560  longest finite=30 rounds  0.1s
+   distinct cycles (up to swapping players): 336   [on-cycle canonical positions by weight: {5: 1440, 15: 720}]
+   loop shape: 153410 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=10  canonical positions cycling=287133  of 3265920  longest finite=53 rounds  0.1s
+   distinct cycles (up to swapping players): 48   [on-cycle canonical positions by weight: {15: 720}]
+   loop shape: 287133 cycling positions checked for runs of exactly 2; not that shape: 0; too long to check: 0
+n=11  canonical positions cycling=20560219  of 36288000  longest finite=44 rounds  0.1s
+   distinct cycles (up to swapping players): 55592   [on-cycle canonical positions by weight: {2: 48440, 3: 85044, 12: 36288}]
+   loop shape: 20560219 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+n=12  canonical positions cycling=0  of 439084800  longest finite=79 rounds  0.4s
+   distinct cycles (up to swapping players): 0   [on-cycle canonical positions by weight: {}]
+   loop shape: 0 cycling positions checked for runs of exactly 4; not that shape: 0; too long to check: 0
+n=13  canonical positions cycling=3609048460  of 5748019200  longest finite=62 rounds  35.4s
+   distinct cycles (up to swapping players): 319680   [on-cycle canonical positions by weight: {7: 1814400, 14: 604800, 35: 604800}]
+   loop shape: 3609048460 cycling positions checked for runs of exactly 1; not that shape: 0; too long to check: 0
+
+== Canonical positions, second GPU program, with the Theorem-3 test and its negative controls
+$ cd gpu; for n in $(seq 2 12); do python war_gpu_floyd.py $n --canon --q1; done;  python war_gpu_floyd.py 10 --canon --q1 --block 1;  python war_gpu_floyd.py 9 --canon --q1 --block 2
+n=2 CANON positions_simulated=1 (expected 1) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=2) time=0.0s
+n=3 CANON positions_simulated=4 (expected 4) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=1) time=0.0s
+n=4 CANON positions_simulated=18 (expected 18) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=4) time=0.0s
+n=5 CANON positions_simulated=96 (expected 96) cycling_canonical_positions=18 cycle_exists=YES q1_nonTheorem3_loops=0 (block=1) time=0.0s
+n=6 CANON positions_simulated=600 (expected 600) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=2) time=0.0s
+n=7 CANON positions_simulated=4320 (expected 4320) cycling_canonical_positions=1572 cycle_exists=YES q1_nonTheorem3_loops=0 (block=1) time=0.1s
+n=8 CANON positions_simulated=35280 (expected 35280) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=8) time=0.1s
+n=9 CANON positions_simulated=322560 (expected 322560) cycling_canonical_positions=153410 cycle_exists=YES q1_nonTheorem3_loops=0 (block=1) time=0.1s
+n=10 CANON positions_simulated=3265920 (expected 3265920) cycling_canonical_positions=287133 cycle_exists=YES q1_nonTheorem3_loops=0 (block=2) time=0.2s
+n=11 CANON positions_simulated=36288000 (expected 36288000) cycling_canonical_positions=20560219 cycle_exists=YES q1_nonTheorem3_loops=0 (block=1) time=0.2s
+n=12 CANON positions_simulated=439084800 (expected 439084800) cycling_canonical_positions=0 cycle_exists=NO q1_nonTheorem3_loops=0 (block=4) time=0.6s
+n=10 CANON positions_simulated=3265920 (expected 3265920) cycling_canonical_positions=287133 cycle_exists=YES q1_nonTheorem3_loops=287133 (block=1) time=0.2s
+n=9 CANON positions_simulated=322560 (expected 322560) cycling_canonical_positions=153410 cycle_exists=YES q1_nonTheorem3_loops=153410 (block=2) time=0.1s
+
+== Distinct cycles, second method
+$ cd cpu; for n in $(seq 5 12); do ./distinct_cycles $n 4; done;  ./distinct_cycles 13 16;  ./distinct_cycles 14 12
+n=5: canonical positions that never end 18; on a cycle 6; DISTINCT cycles up to swap 2
+   cycle lengths (distinct cycles): 6:2
+n=6: canonical positions that never end 0; on a cycle 0; DISTINCT cycles up to swap 0
+   cycle lengths (distinct cycles):
+n=7: canonical positions that never end 1572; on a cycle 144; DISTINCT cycles up to swap 52
+   cycle lengths (distinct cycles): 8:52
+n=8: canonical positions that never end 0; on a cycle 0; DISTINCT cycles up to swap 0
+   cycle lengths (distinct cycles):
+n=9: canonical positions that never end 153410; on a cycle 2160; DISTINCT cycles up to swap 336
+   cycle lengths (distinct cycles): 20:144 30:192
+n=10: canonical positions that never end 287133; on a cycle 720; DISTINCT cycles up to swap 48
+   cycle lengths (distinct cycles): 60:48
+n=11: canonical positions that never end 20560219; on a cycle 169772; DISTINCT cycles up to swap 55592
+   cycle lengths (distinct cycles): 12:42560 24:13032
+n=12: canonical positions that never end 0; on a cycle 0; DISTINCT cycles up to swap 0
+   cycle lengths (distinct cycles):
+n=13: canonical positions that never end 3609048460; on a cycle 3024000; DISTINCT cycles up to swap 319680
+   cycle lengths (distinct cycles): 42:86400 56:129600 70:103680
+n=14: canonical positions that never end 2872129173; on a cycle 496800; DISTINCT cycles up to swap 26640
+   cycle lengths (distinct cycles): 96:720 112:25920
+
+== Cycles for odd n from their shape
+$ cd cpu; for n in 5 7 9 11 13; do ./odd_cycles $n 4; done;  ./odd_cycles 15 16;  ./odd_cycles 17 8 4;  ./odd_cycles 17 8 5
+  a=1 b=1 (P1 2, P2 3 cards, cycle length 6): positions tried 12, on a cycle 6, distinct cycles 2
+n=5: DISTINCT cycles up to swap 2 (canonical positions on cycles 6; positions tried 12)
+  a=1 b=2 (P1 2, P2 5 cards, cycle length 8): positions tried 360, on a cycle 80, distinct cycles 20
+  a=2 b=1 (P1 4, P2 3 cards, cycle length 8): positions tried 180, on a cycle 64, distinct cycles 32
+n=7: DISTINCT cycles up to swap 52 (canonical positions on cycles 144; positions tried 540)
+  a=1 b=3 (P1 2, P2 7 cards, cycle length 30): positions tried 20160, on a cycle 720, distinct cycles 48
+  a=2 b=2 (P1 4, P2 5 cards, cycle length 20): positions tried 5040, on a cycle 720, distinct cycles 144
+  a=3 b=1 (P1 6, P2 3 cards, cycle length 30): positions tried 10080, on a cycle 720, distinct cycles 144
+n=9: DISTINCT cycles up to swap 336 (canonical positions on cycles 2160; positions tried 35280)
+  a=1 b=4 (P1 2, P2 9 cards, cycle length 24): positions tried 1814400, on a cycle 36288, distinct cycles 3024
+  a=2 b=3 (P1 4, P2 7 cards, cycle length 12): positions tried 453600, on a cycle 55020, distinct cycles 18340
+  a=3 b=2 (P1 6, P2 5 cards, cycle length 12): positions tried 226800, on a cycle 48440, distinct cycles 24220
+  a=4 b=1 (P1 8, P2 3 cards, cycle length 24): positions tried 907200, on a cycle 30024, distinct cycles 10008
+n=11: DISTINCT cycles up to swap 55592 (canonical positions on cycles 169772; positions tried 3402000)
+  a=1 b=5 (P1 2, P2 11 cards, cycle length 70): positions tried 239500800, on a cycle 604800, distinct cycles 17280
+  a=2 b=4 (P1 4, P2 9 cards, cycle length 56): positions tried 59875200, on a cycle 604800, distinct cycles 43200
+  a=3 b=3 (P1 6, P2 7 cards, cycle length 42): positions tried 14968800, on a cycle 604800, distinct cycles 86400
+  a=4 b=2 (P1 8, P2 5 cards, cycle length 56): positions tried 29937600, on a cycle 604800, distinct cycles 86400
+  a=5 b=1 (P1 10, P2 3 cards, cycle length 70): positions tried 119750400, on a cycle 604800, distinct cycles 86400
+n=13: DISTINCT cycles up to swap 319680 (canonical positions on cycles 3024000; positions tried 464032800)
+  a=1 b=6 (P1 2, P2 13 cards, cycle length 48): positions tried 43589145600, on a cycle 71165952, distinct cycles 2965248
+  a=2 b=5 (P1 4, P2 11 cards, cycle length 80): positions tried 10897286400, on a cycle 32901120, distinct cycles 1645056
+  a=3 b=4 (P1 6, P2 9 cards, cycle length 48): positions tried 2724321600, on a cycle 97413120, distinct cycles 12176640
+  a=4 b=3 (P1 8, P2 7 cards, cycle length 48): positions tried 1362160800, on a cycle 71285760, distinct cycles 11880960
+  a=5 b=2 (P1 10, P2 5 cards, cycle length 80): positions tried 5448643200, on a cycle 36771840, distinct cycles 4596480
+  a=6 b=1 (P1 12, P2 3 cards, cycle length 48): positions tried 21794572800, on a cycle 60162048, distinct cycles 15040512
+n=15: DISTINCT cycles up to swap 48304896 (canonical positions on cycles 369699840; positions tried 85816130400)
+  a=4 b=4 (P1 8, P2 9 cards, cycle length 72): positions tried 163459296000, on a cycle 1828915200, distinct cycles 203212800
+n=17: DISTINCT cycles up to swap 203212800 (canonical positions on cycles 1828915200; positions tried 163459296000)
+  a=5 b=3 (P1 10, P2 7 cards, cycle length 90): positions tried 326918592000, on a cycle 3249590400, distinct cycles 361065600
+n=17: DISTINCT cycles up to swap 361065600 (canonical positions on cycles 3249590400; positions tried 326918592000)
+
+== Cycles entered by an ordinary deal
+$ cd cpu; for n in $(seq 5 12); do ./reach_cycles $n 4; done;  ./reach_cycles 13 12;  ./reach_cycles 14 12
+n=5: distinct cycles up to swap 2 | reached by a deal 2 | NOT reached 0 | undetermined (cap 200000000) 0
+n=6: distinct cycles up to swap 0 | reached by a deal 0 | NOT reached 0 | undetermined (cap 200000000) 0
+n=7: distinct cycles up to swap 52 | reached by a deal 52 | NOT reached 0 | undetermined (cap 200000000) 0
+n=8: distinct cycles up to swap 0 | reached by a deal 0 | NOT reached 0 | undetermined (cap 200000000) 0
+n=9: distinct cycles up to swap 336 | reached by a deal 336 | NOT reached 0 | undetermined (cap 200000000) 0
+n=10: distinct cycles up to swap 48 | reached by a deal 48 | NOT reached 0 | undetermined (cap 200000000) 0
+n=11: distinct cycles up to swap 55592 | reached by a deal 55592 | NOT reached 0 | undetermined (cap 200000000) 0
+n=12: distinct cycles up to swap 0 | reached by a deal 0 | NOT reached 0 | undetermined (cap 200000000) 0
+n=13: distinct cycles up to swap 319680 | reached by a deal 319680 | NOT reached 0 | undetermined (cap 200000000) 0
+n=14: distinct cycles up to swap 26640 | reached by a deal 26640 | NOT reached 0 | undetermined (cap 200000000) 0
+
+== Counting formulas
+$ cd counting; python odd_formula.py 21;  python odd_formula.py 15 15 --split;  python odd_formula.py 17 17 --split;  python t3_count.py 10 14 18 20 22;  python t3_period.py;  python slot_check.py
+n= 5  D=2  K=6  lengths(up to swap)={6: 2}
+n= 7  D=52  K=144  lengths(up to swap)={8: 52}
+n= 9  D=336  K=2160  lengths(up to swap)={20: 144, 30: 192}
+n=11  D=55592  K=169772  lengths(up to swap)={12: 42560, 24: 13032}
+n=13  D=319680  K=3024000  lengths(up to swap)={42: 86400, 56: 129600, 70: 103680}
+n=15  D=48304896  K=369699840  lengths(up to swap)={48: 42063360, 80: 6241536}
+n=17  D=3588302592  K=23977078272  lengths(up to swap)={36: 2612155392, 72: 203212800, 90: 540691200, 126: 232243200}
+n=19  D=653644195200  K=3756942833280  lengths(up to swap)={40: 472119177600, 60: 79912396800, 80: 79317273600, 140: 22295347200}
+n=21  D=6150380544000  K=130365075456000  lengths(up to swap)={110: 1316818944000, 176: 1646023680000, 198: 1463132160000, 264: 1097349120000, 462: 627056640000}
+n=15  D=48304896  K=369699840  lengths(up to swap)={48: 42063360, 80: 6241536}
+   (a,b)=(1,6)  length 48  e=432138240  canonical positions on cycles e'=71165952
+   (a,b)=(2,5)  length 80  e=249661440  canonical positions on cycles e'=32901120
+   (a,b)=(3,4)  length 48  e=577382400  canonical positions on cycles e'=97413120
+   (a,b)=(4,3)  length 48  e=577382400  canonical positions on cycles e'=71285760
+   (a,b)=(5,2)  length 80  e=249661440  canonical positions on cycles e'=36771840
+   (a,b)=(6,1)  length 48  e=432138240  canonical positions on cycles e'=60162048
+n=17  D=3588302592  K=23977078272  lengths(up to swap)={36: 2612155392, 72: 203212800, 90: 540691200, 126: 232243200}
+   (a,b)=(1,7)  length 126  e=14631321600  canonical positions on cycles e'=1828915200
+   (a,b)=(2,6)  length 36  e=47018797056  canonical positions on cycles e'=7064838144
+   (a,b)=(3,5)  length 90  e=24331104000  canonical positions on cycles e'=2694384000
+   (a,b)=(4,4)  length 72  e=14631321600  canonical positions on cycles e'=1828915200
+   (a,b)=(5,3)  length 90  e=24331104000  canonical positions on cycles e'=3249590400
+   (a,b)=(6,2)  length 36  e=47018797056  canonical positions on cycles e'=5481520128
+   (a,b)=(7,1)  length 126  e=14631321600  canonical positions on cycles e'=1828915200
+n=10 M=2: (a,b)=(1,1) L=60 e=1440  D3=48
+n=14 M=2: (a,b)=(1,2) L=112 e=725760  (a,b)=(2,1) L=112 e=725760  D3=25920
+n=18 M=2: (a,b)=(1,3) L=180 e=2710713600  (a,b)=(2,2) L=360 e=1045094400  (a,b)=(3,1) L=180 e=2710713600  D3=66044160
+n=20 M=4: (a,b)=(1,1) L=672 e=2438553600  D3=14515200
+n=22 M=2: (a,b)=(1,4) L=528 e=3448811520000  (a,b)=(2,3) L=264 e=3448811520000  (a,b)=(3,2) L=264 e=3448811520000  (a,b)=(4,1) L=528 e=3448811520000  D3=78382080000
+n=5 M=1 (a,b)=(1,1) forced L=6 route L=6 routes(blocks)=[2, 6]  OK
+n=5 M=1: the lengths L_{a,b} are [6]
+n=7 M=1: the lengths L_{a,b} are [8]
+n=9 M=1 (a,b)=(1,3) forced L=30 route L=30 routes(blocks)=[2, 6, 10]  OK
+n=9 M=1: the lengths L_{a,b} are [20, 30]
+n=11 M=1: the lengths L_{a,b} are [12, 24]
+n=13 M=1: the lengths L_{a,b} are [42, 56, 70]
+n=15 M=1: the lengths L_{a,b} are [48, 80]
+n=17 M=1: the lengths L_{a,b} are [36, 72, 90, 126]
+n=19 M=1: the lengths L_{a,b} are [40, 60, 80, 140]
+n=21 M=1: the lengths L_{a,b} are [110, 176, 198, 264, 462]
+n=23 M=1: the lengths L_{a,b} are [48, 72, 120, 168]
+n=25 M=1: the lengths L_{a,b} are [156, 208, 234, 260, 286, 910]
+n=27 M=1: the lengths L_{a,b} are [84, 168, 308, 420, 504, 560]
+n=29 M=1: the lengths L_{a,b} are [90, 120, 210, 240, 330, 390]
+n=31 M=1: the lengths L_{a,b} are [96, 160, 224, 288, 352, 416]
+n=33 M=1: the lengths L_{a,b} are [272, 408, 476, 510, 1020, 1326, 1870, 2142]
+n=35 M=1: the lengths L_{a,b} are [144, 180, 252, 288, 360, 396, 936, 1260]
+n=37 M=1: the lengths L_{a,b} are [342, 456, 570, 608, 646, 1064, 1520, 2470, 2926]
+n=39 M=1: the lengths L_{a,b} are [120, 280, 360, 480, 680, 840, 880, 1560]
+n=41 M=1: the lengths L_{a,b} are [84, 210, 252, 336, 420, 546, 672, 714, 798, 1386]
+n=43 M=1: the lengths L_{a,b} are [220, 308, 396, 440, 660, 792, 836, 1496, 1760, 2288]
+n=45 M=1: the lengths L_{a,b} are [506, 920, 966, 1656, 2208, 2576, 2622, 2760, 3910, 4830, 5382]
+n=47 M=1: the lengths L_{a,b} are [240, 336, 528, 672, 720, 816, 912, 1008, 3120]
+n=49 M=1: the lengths L_{a,b} are [200, 450, 600, 700, 800, 900, 950, 1050, 1100, 1150, 5950, 7150]
+n=51 M=1: the lengths L_{a,b} are [312, 520, 624, 780, 1196, 1716, 2184, 2964, 3276, 3536, 3744, 4004]
+n=53 M=1: the lengths L_{a,b} are [432, 702, 918, 1080, 1242, 1350, 1512, 1890, 2376, 2970, 4320, 7182]
+n=55 M=1: the lengths L_{a,b} are [168, 280, 336, 504, 728, 840, 1288, 1400, 2128, 2464, 3080, 4760]
+n=57 M=1: the lengths L_{a,b} are [812, 1218, 1392, 1508, 1566, 2320, 2784, 3828, 4350, 5220, 6670, 9918, 10846, 11310]
+n=59 M=1: the lengths L_{a,b} are [240, 360, 420, 540, 600, 780, 840, 1140, 1380, 1680, 1980, 2040, 4620, 6240]
+n=61 M=1: the lengths L_{a,b} are [930, 1240, 1488, 1550, 1674, 1736, 1798, 2232, 3224, 3906, 5456, 6944, 9982, 12958, 13702]
+n=63 M=1: the lengths L_{a,b} are [960, 1344, 1472, 1728, 1856, 3520, 3648, 4160, 4800, 6336, 6720, 7488, 7616]
+n=10 M=2 (a,b)=(1,1) forced L=60 route L=60 routes(blocks)=[2, 6, 10]  OK
+n=10 M=2: the lengths L_{a,b} are [60]
+n=14 M=2: the lengths L_{a,b} are [112]
+n=18 M=2 (a,b)=(1,3) forced L=180 route L=180 routes(blocks)=[2, 6, 10, 18]  OK
+n=18 M=2: the lengths L_{a,b} are [180, 360]
+n=22 M=2: the lengths L_{a,b} are [264, 528]
+n=26 M=2: the lengths L_{a,b} are [1092, 1456, 1820]
+n=30 M=2: the lengths L_{a,b} are [480]
+n=34 M=2: the lengths L_{a,b} are [1224, 2448, 3060, 4284]
+n=38 M=2: the lengths L_{a,b} are [1520, 2280, 3040, 5320]
+n=42 M=2: the lengths L_{a,b} are [924, 2772, 3696, 4620, 7392]
+n=46 M=2: the lengths L_{a,b} are [2208, 3312, 5520, 7728]
+n=50 M=2: the lengths L_{a,b} are [2600, 7800, 9100, 10400, 11700, 14300]
+n=54 M=2: the lengths L_{a,b} are [1512, 3024, 7560, 16632, 30240]
+n=58 M=2: the lengths L_{a,b} are [5220, 6960, 12180, 13920, 19140, 22620]
+n=62 M=2: the lengths L_{a,b} are [5952, 9920, 13888, 17856, 21824, 25792]
+n=20 M=4 (a,b)=(1,1) forced L=672 route L=672 routes(blocks)=[2, 6, 8, 14]  OK
+n=20 M=4: the lengths L_{a,b} are [672]
+n=28 M=4: the lengths L_{a,b} are [480]
+n=36 M=4 (a,b)=(1,3) forced L=12480 route L=12480 routes(blocks)=[2, 6, 10, 12, 16, 26]  OK
+n=36 M=4: the lengths L_{a,b} are [7280, 12480]
+n=44 M=4: the lengths L_{a,b} are [1152, 13440]
+n=52 M=4: the lengths L_{a,b} are [31920, 127680, 421344]
+n=60 M=4: the lengths L_{a,b} are [2112, 44352, 45760]
+n=40 M=8 (a,b)=(1,1) forced L=7920 route L=7920 routes(blocks)=[2, 6, 10, 18, 22]  OK
+n=40 M=8: the lengths L_{a,b} are [7920]
+n=56 M=8: the lengths L_{a,b} are [174720]
+mismatches: 0
+n=5 (a,b)=(1,1): 12 extensions, all on a cycle of length 6; other labelings on a cycle: 0
+n=7 (a,b)=(1,2): 208 extensions, all on a cycle of length 8; other labelings on a cycle: 0
+n=7 (a,b)=(2,1): 208 extensions, all on a cycle of length 8; other labelings on a cycle: 0
+n=9 (a,b)=(1,3): 2880 extensions, all on a cycle of length 30; other labelings on a cycle: 0
+n=9 (a,b)=(2,2): 2880 extensions, all on a cycle of length 20; other labelings on a cycle: 0
+n=9 (a,b)=(3,1): 2880 extensions, all on a cycle of length 30; other labelings on a cycle: 0
+
+== Losing card first
+$ cd gpu; python war_gpu.py 13 --nmin 2 --rule 1;  cd ../cpu; for n in $(seq 2 12); do ./loser_first $n 8; done;  ./loser_first 13 16
+n=2  a(n)=0  of 2  longest finite=1 rounds  0.0s
+n=3  a(n)=2  of 6  longest finite=2 rounds  0.0s
+n=4  a(n)=0  of 24  longest finite=6 rounds  0.0s
+n=5  a(n)=64  of 120  longest finite=6 rounds  0.0s
+n=6  a(n)=72  of 720  longest finite=17 rounds  0.0s
+n=7  a(n)=3363  of 5040  longest finite=12 rounds  0.0s
+n=8  a(n)=0  of 40320  longest finite=38 rounds  0.0s
+n=9  a(n)=273156  of 362880  longest finite=22 rounds  0.0s
+n=10  a(n)=322940  of 3628800  longest finite=101 rounds  0.0s
+n=11  a(n)=32668555  of 39916800  longest finite=34 rounds  0.1s
+n=12  a(n)=23880636  of 479001600  longest finite=118 rounds  1.1s
+n=13  a(n)=5374605768  of 6227020800  longest finite=53 rounds  10.6s
+loser-first n=2: deals 2, never end 0, longest ending game 1
+loser-first n=3: deals 6, never end 2, longest ending game 2
+loser-first n=4: deals 24, never end 0, longest ending game 6
+loser-first n=5: deals 120, never end 64, longest ending game 6
+loser-first n=6: deals 720, never end 72, longest ending game 17
+loser-first n=7: deals 5040, never end 3363, longest ending game 12
+loser-first n=8: deals 40320, never end 0, longest ending game 38
+loser-first n=9: deals 362880, never end 273156, longest ending game 22
+loser-first n=10: deals 3628800, never end 322940, longest ending game 101
+loser-first n=11: deals 39916800, never end 32668555, longest ending game 34
+loser-first n=12: deals 479001600, never end 23880636, longest ending game 118
+loser-first n=13: deals 6227020800, never end 5374605768, longest ending game 53
+
+== Losing card first, second GPU program
+$ cd gpu; for n in $(seq 2 13); do python war_gpu_floyd.py $n --loser-first; done;  python war_gpu_floyd.py 14 --half --loser-first
+n=2 rule=loser_first half=False deals_simulated=2 (expected 2) cycling_found=0 a(n)=0 longest_finite=1 time=0.0s
+n=3 rule=loser_first half=False deals_simulated=6 (expected 6) cycling_found=2 a(n)=2 longest_finite=2 time=0.0s
+n=4 rule=loser_first half=False deals_simulated=24 (expected 24) cycling_found=0 a(n)=0 longest_finite=6 time=0.0s
+n=5 rule=loser_first half=False deals_simulated=120 (expected 120) cycling_found=64 a(n)=64 longest_finite=6 time=0.0s
+n=6 rule=loser_first half=False deals_simulated=720 (expected 720) cycling_found=72 a(n)=72 longest_finite=17 time=0.0s
+n=7 rule=loser_first half=False deals_simulated=5040 (expected 5040) cycling_found=3363 a(n)=3363 longest_finite=12 time=0.0s
+n=8 rule=loser_first half=False deals_simulated=40320 (expected 40320) cycling_found=0 a(n)=0 longest_finite=38 time=0.0s
+n=9 rule=loser_first half=False deals_simulated=362880 (expected 362880) cycling_found=273156 a(n)=273156 longest_finite=22 time=0.0s
+n=10 rule=loser_first half=False deals_simulated=3628800 (expected 3628800) cycling_found=322940 a(n)=322940 longest_finite=101 time=0.0s
+n=11 rule=loser_first half=False deals_simulated=39916800 (expected 39916800) cycling_found=32668555 a(n)=32668555 longest_finite=34 time=0.1s
+n=12 rule=loser_first half=False deals_simulated=479001600 (expected 479001600) cycling_found=23880636 a(n)=23880636 longest_finite=118 time=1.4s
+n=13 rule=loser_first half=False deals_simulated=6227020800 (expected 6227020800) cycling_found=5374605768 a(n)=5374605768 longest_finite=53 time=18.3s
+n=14 rule=loser_first half=True deals_simulated=43589145600 (expected 43589145600) cycling_found=2272220244 a(n)=4544440488 longest_finite=471 time=182.9s
+
+== Losing card first, canonical positions, both GPU programs
+$ cd gpu; python war_gpu.py 12 --nmin 2 --canon --rule 1;  for n in $(seq 2 12); do python war_gpu_floyd.py $n --canon --loser-first; done
+n=2  canonical positions cycling=0  of 1  longest finite=1 rounds  0.0s
+n=3  canonical positions cycling=1  of 4  longest finite=2 rounds  0.0s
+n=4  canonical positions cycling=0  of 18  longest finite=7 rounds  0.0s
+n=5  canonical positions cycling=40  of 96  longest finite=6 rounds  0.0s
+n=6  canonical positions cycling=48  of 600  longest finite=19 rounds  0.0s
+n=7  canonical positions cycling=2270  of 4320  longest finite=14 rounds  0.0s
+n=8  canonical positions cycling=0  of 35280  longest finite=41 rounds  0.0s
+n=9  canonical positions cycling=192216  of 322560  longest finite=24 rounds  0.0s
+n=10  canonical positions cycling=241348  of 3265920  longest finite=105 rounds  0.1s
+n=11  canonical positions cycling=23598491  of 36288000  longest finite=38 rounds  0.1s
+n=12  canonical positions cycling=17930070  of 439084800  longest finite=123 rounds  1.1s
+n=2 rule=loser_first CANON positions_simulated=1 (expected 1) cycling_canonical_positions=0 cycle_exists=NO time=0.0s
+n=3 rule=loser_first CANON positions_simulated=4 (expected 4) cycling_canonical_positions=1 cycle_exists=YES time=0.0s
+n=4 rule=loser_first CANON positions_simulated=18 (expected 18) cycling_canonical_positions=0 cycle_exists=NO time=0.0s
+n=5 rule=loser_first CANON positions_simulated=96 (expected 96) cycling_canonical_positions=40 cycle_exists=YES time=0.0s
+n=6 rule=loser_first CANON positions_simulated=600 (expected 600) cycling_canonical_positions=48 cycle_exists=YES time=0.0s
+n=7 rule=loser_first CANON positions_simulated=4320 (expected 4320) cycling_canonical_positions=2270 cycle_exists=YES time=0.0s
+n=8 rule=loser_first CANON positions_simulated=35280 (expected 35280) cycling_canonical_positions=0 cycle_exists=NO time=0.0s
+n=9 rule=loser_first CANON positions_simulated=322560 (expected 322560) cycling_canonical_positions=192216 cycle_exists=YES time=0.1s
+n=10 rule=loser_first CANON positions_simulated=3265920 (expected 3265920) cycling_canonical_positions=241348 cycle_exists=YES time=0.1s
+n=11 rule=loser_first CANON positions_simulated=36288000 (expected 36288000) cycling_canonical_positions=23598491 cycle_exists=YES time=0.1s
+n=12 rule=loser_first CANON positions_simulated=439084800 (expected 439084800) cycling_canonical_positions=17930070 cycle_exists=YES time=0.7s
+
+== Random 17- and 19-card deals
+$ cd cycles; python loop_shape.py 17 0 20000 1;  python loop_shape.py 19 0 5000 1
+loop lengths seen: {36: 5074, 72: 4338, 90: 6656, 126: 1435}
+loop lengths seen: {40: 1919, 60: 1531, 80: 261, 140: 819}
+
+== Random positions, 14 values of n from 18 to 52
+$ cd cpu; for n in 18 20 22 24 26 28 34 36 40 42 44 48 50 52; do ./sampler $n 10000000 8 $n pos; done
+n=18 (2^v=2) mode=pos samples=10000000 seed=18: ended 9796343, looped 203657, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=180 x97419
+   L=360 x106238
+n=20 (2^v=4) mode=pos samples=10000000 seed=20: ended 9990663, looped 9337, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=672 x9337
+n=22 (2^v=2) mode=pos samples=10000000 seed=22: ended 9949425, looped 50575, capped 0 | loops not of Theorem-3 type 318 | loop length not a multiple of n+2^v: 0
+   L=264 x42418
+   L=528 x7839
+   L=240 x50   not Theorem-3 type
+   L=288 x194   not Theorem-3 type
+   L=360 x11   not Theorem-3 type
+   L=672 x48   not Theorem-3 type
+   L=1440 x15   not Theorem-3 type
+   loops not of Theorem-3 type, by length and category sizes (A first): how many pass through the doubled-family start, how many give card 1 period n+2^v, and the first example:
+   L=240 sizes 3,6,5,5,3 x50 | doubled family 0 | card 1 period n+2^v 50 | sample 305173: P1 = 19 17 18 8 13 12 6 2 22 15 16 7 11 9 4 1  P2 = 14 10 21 5 20 3
+   L=288 sizes 4,8,5,3,2 x194 | doubled family 194 | card 1 period n+2^v 194 | sample 9883: P1 = 20 14 18 9 19 13 15 8 6 5 4 1  P2 = 12 7 22 16 11 10 21 3 17 2
+   L=360 sizes 2,3,3,5,4,3,2 x6 | doubled family 0 | card 1 period n+2^v 6 | sample 5116227: P1 = 10 13 4 21 14 19 9 16 3  P2 = 1 22 20 18 15 17 12 11 6 8 7 5 2
+   L=360 sizes 3,5,3,3,3,3,2 x5 | doubled family 0 | card 1 period n+2^v 5 | sample 524086: P1 = 13 20 7 17 11 21 3 19 2  P2 = 15 16 10 14 12 9 6 5 4 8 1 22 18
+   L=672 sizes 4,7,4,4,3 x48 | doubled family 0 | card 1 period n+2^v 48 | sample 19832: P1 = 3 19 17 14 9 10 6 8 1  P2 = 18 16 7 22 5 12 2 20 15 13 11 21 4
+   L=1440 sizes 3,5,4,6,4 x15 | doubled family 0 | card 1 period n+2^v 15 | sample 399258: P1 = 1 14 9 8 2 20 17 15 13  P2 = 6 5 4 22 18 16 11 21 10 19 3 12 7
+n=24 (2^v=8) mode=pos samples=10000000 seed=24: ended 10000000, looped 0, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+n=26 (2^v=2) mode=pos samples=10000000 seed=26: ended 9976874, looped 23126, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=1092 x17891
+   L=1456 x4027
+   L=1820 x1208
+n=28 (2^v=4) mode=pos samples=10000000 seed=28: ended 9998490, looped 1510, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=480 x1510
+n=34 (2^v=2) mode=pos samples=10000000 seed=34: ended 9997346, looped 2654, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=1224 x84
+   L=2448 x2213
+   L=3060 x332
+   L=4284 x25
+n=36 (2^v=4) mode=pos samples=10000000 seed=36: ended 9999992, looped 8, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=7280 x6
+   L=12480 x2
+n=40 (2^v=8) mode=pos samples=10000000 seed=40: ended 10000000, looped 0, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+n=42 (2^v=2) mode=pos samples=10000000 seed=42: ended 9999602, looped 398, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=924 x100
+   L=2772 x5
+   L=3696 x50
+   L=4620 x243
+n=44 (2^v=4) mode=pos samples=10000000 seed=44: ended 9999999, looped 1, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=1152 x1
+n=48 (2^v=16) mode=pos samples=10000000 seed=48: ended 10000000, looped 0, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+n=50 (2^v=2) mode=pos samples=10000000 seed=50: ended 9999960, looped 40, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+   L=7800 x35
+   L=9100 x4
+   L=11700 x1
+n=52 (2^v=4) mode=pos samples=10000000 seed=52: ended 10000000, looped 0, capped 0 | loops not of Theorem-3 type 0 | loop length not a multiple of n+2^v: 0
+
+== Letter positions whose doubling is not of Theorem-3 type
+$ cd cpu; for d in 1 2 3; do for m in 5 7 9 11 13 15; do ./base_search $m 4 16 $d; done; done
+doublings=1 n=10 | m=5 letters=4: base positions 112 (distinct base cycles 28.00) | doubled game enters a tie-free loop: 18 (1.90 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=1 n=14 | m=7 letters=4: base positions 1144 (distinct base cycles 192.00) | doubled game enters a tie-free loop: 36 (4.50 by 1/loop-length) | doubled loop NEW-type: 8 positions (1.00) | run-check skipped (long): 0
+   example base: P1 = BCDAB  P2 = AD
+doublings=1 n=18 | m=9 letters=4: base positions 4728 (distinct base cycles 422.00) | doubled game enters a tie-free loop: 102 (6.61 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=1 n=22 | m=11 letters=4: base positions 45720 (distinct base cycles 3690.00) | doubled game enters a tie-free loop: 116 (10.64 by 1/loop-length) | doubled loop NEW-type: 52 positions (4.00) | run-check skipped (long): 0
+   example base: P1 = CDABAB  P2 = DABAB
+doublings=1 n=26 | m=13 letters=4: base positions 109160 (distinct base cycles 4344.00) | doubled game enters a tie-free loop: 74 (8.12 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=1 n=30 | m=15 letters=4: base positions 793704 (distinct base cycles 29474.00) | doubled game enters a tie-free loop: 342 (17.26 by 1/loop-length) | doubled loop NEW-type: 40 positions (4.00) | run-check skipped (long): 0
+   example base: P1 = CDABABAB  P2 = DABABAB
+doublings=2 n=20 | m=5 letters=4: base positions 112 (distinct base cycles 28.00) | doubled game enters a tie-free loop: 6 (0.75 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=2 n=28 | m=7 letters=4: base positions 1144 (distinct base cycles 192.00) | doubled game enters a tie-free loop: 20 (2.00 by 1/loop-length) | doubled loop NEW-type: 8 positions (0.50) | run-check skipped (long): 0
+   example base: P1 = BCDAB  P2 = AD
+doublings=2 n=36 | m=9 letters=4: base positions 4728 (distinct base cycles 422.00) | doubled game enters a tie-free loop: 18 (2.25 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=2 n=44 | m=11 letters=4: base positions 45720 (distinct base cycles 3690.00) | doubled game enters a tie-free loop: 76 (5.00 by 1/loop-length) | doubled loop NEW-type: 52 positions (2.00) | run-check skipped (long): 0
+   example base: P1 = CDABAB  P2 = DABAB
+doublings=2 n=52 | m=13 letters=4: base positions 109160 (distinct base cycles 4344.00) | doubled game enters a tie-free loop: 30 (3.75 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=2 n=60 | m=15 letters=4: base positions 793704 (distinct base cycles 29474.00) | doubled game enters a tie-free loop: 76 (6.50 by 1/loop-length) | doubled loop NEW-type: 40 positions (2.00) | run-check skipped (long): 0
+   example base: P1 = CDABABAB  P2 = DABABAB
+doublings=3 n=40 | m=5 letters=4: base positions 112 (distinct base cycles 28.00) | doubled game enters a tie-free loop: 6 (0.38 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=3 n=56 | m=7 letters=4: base positions 1144 (distinct base cycles 192.00) | doubled game enters a tie-free loop: 20 (1.00 by 1/loop-length) | doubled loop NEW-type: 8 positions (0.25) | run-check skipped (long): 0
+   example base: P1 = BCDAB  P2 = AD
+doublings=3 n=72 | m=9 letters=4: base positions 4728 (distinct base cycles 422.00) | doubled game enters a tie-free loop: 18 (1.12 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=3 n=88 | m=11 letters=4: base positions 45720 (distinct base cycles 3690.00) | doubled game enters a tie-free loop: 76 (2.50 by 1/loop-length) | doubled loop NEW-type: 52 positions (1.00) | run-check skipped (long): 0
+   example base: P1 = CDABAB  P2 = DABAB
+doublings=3 n=104 | m=13 letters=4: base positions 109160 (distinct base cycles 4344.00) | doubled game enters a tie-free loop: 30 (1.88 by 1/loop-length) | doubled loop NEW-type: 0 positions (0.00) | run-check skipped (long): 0
+doublings=3 n=120 | m=15 letters=4: base positions 793704 (distinct base cycles 29474.00) | doubled game enters a tie-free loop: 76 (3.25 by 1/loop-length) | doubled loop NEW-type: 40 positions (1.00) | run-check skipped (long): 0
+   example base: P1 = CDABABAB  P2 = DABABAB
+
+== Letter positions whose doubling is not of Theorem-3 type, second program
+$ cd cpu; for m in 5 7 9 11 13 15; do ./base_enum $m full 12; done
+m=5 letters=4 mode=full: base positions 112; doubled e=1,2,3 reach a tie-free loop: 18 6 6; not of Theorem-3 type: 0 0 0
+m=7 letters=4 mode=full: base positions 1144; doubled e=1,2,3 reach a tie-free loop: 36 20 20; not of Theorem-3 type: 8 8 8
+m=9 letters=4 mode=full: base positions 4728; doubled e=1,2,3 reach a tie-free loop: 102 18 18; not of Theorem-3 type: 0 0 0
+m=11 letters=4 mode=full: base positions 45720; doubled e=1,2,3 reach a tie-free loop: 116 76 76; not of Theorem-3 type: 52 52 52
+m=13 letters=4 mode=full: base positions 109160; doubled e=1,2,3 reach a tie-free loop: 74 30 30; not of Theorem-3 type: 0 0 0
+m=15 letters=4 mode=full: base positions 793704; doubled e=1,2,3 reach a tie-free loop: 342 76 76; not of Theorem-3 type: 40 40 40
+
+== Bases of five and six letters for m = 5 and 9, every word and every split
+$ cd cpu; for L in 5 6; do for m in 5 9; do ./base_enum $m full 12 $L list; done; done
+m=5 letters=5 mode=full: base positions 384; doubled e=1,2,3 reach a tie-free loop: 50 8 8; not of Theorem-3 type: 0 0 0
+m=9 letters=5 mode=full: base positions 41544; doubled e=1,2,3 reach a tie-free loop: 270 24 24; not of Theorem-3 type: 0 0 0
+m=5 letters=6 mode=full: base positions 1034; doubled e=1,2,3 reach a tie-free loop: 120 10 10; not of Theorem-3 type: 0 0 0
+m=9 letters=6 mode=full: base positions 241494; doubled e=1,2,3 reach a tie-free loop: 804 30 30; not of Theorem-3 type: 0 0 0
+
+== Classes of the doubled cycles not of Theorem-3 type at n = 14 and 22
+$ cd families; python classify_doubled.py 1 7 ../data/doubled_bases.txt;  python classify_doubled.py 1 11 ../data/doubled_bases.txt
+e=1 m=7 n=14: 1 classes by (numbered length, category sizes A..)
+  length 96, categories 5 sizes (2, 4, 3, 3, 2), letter periods [8, 16, 24, 32, 48, 96], 168 base positions, e.g. base AB | DABCD
+e=1 m=11 n=22: 6 classes by (numbered length, category sizes A..)
+  length 240, categories 5 sizes (3, 6, 5, 5, 3), letter periods [8, 40, 48, 240], 352 base positions, e.g. base AB | DABCDABCD
+  length 288, categories 5 sizes (4, 8, 5, 3, 2), letter periods [12, 24, 36, 72, 96, 288], 252 base positions, e.g. base ABAB | DABABCD
+  length 360, categories 7 sizes (2, 3, 3, 5, 4, 3, 2), letter periods [24], 24 base positions, e.g. base ABCD | FADCDEF
+  length 360, categories 7 sizes (3, 5, 3, 3, 3, 3, 2), letter periods [12], 12 base positions, e.g. base ABAD | FABCDEF
+  length 672, categories 5 sizes (4, 7, 4, 4, 3), letter periods [8, 32, 56, 224], 168 base positions, e.g. base ABADAB | DABCD
+  length 1440, categories 5 sizes (3, 5, 4, 6, 4), letter periods [24, 48, 96, 120, 144, 240, 288, 480, 720], 504 base positions, e.g. base ABADCD | DABCD
+
+== The n = 8k+6 family and the doubled family
+$ cd families; python family_construct.py; python family_check.py 4; python doubled_phases.py; python doubled_check.py; python doubled_family.py
+k= 1 n= 14 (n mod 8 = 6): letter level cycle, period 8 | cards: loop length 96 (= 6 x (n+2)), runs {2: 24, 1: 48}, 5 categories, loss gaps {3: 24, 1: 72}
+k= 2 n= 22 (n mod 8 = 6): letter level cycle, period 12 | cards: loop length 288 (= 12 x (n+2)), runs {2: 96, 1: 96}, 5 categories, loss gaps {3: 48, 1: 240}
+k= 3 n= 30 (n mod 8 = 6): letter level cycle, period 16 | cards: loop length 192 (= 6 x (n+2)), runs {2: 72, 1: 48}, 5 categories, loss gaps {3: 24, 1: 168}
+k= 4 n= 38 (n mod 8 = 6): letter level cycle, period 20 | cards: loop length 960 (= 24 x (n+2)), runs {2: 384, 1: 192}, 5 categories, loss gaps {3: 96, 1: 864}
+k= 5 n= 46 (n mod 8 = 6): letter level cycle, period 24 | cards: loop length 1440 (= 30 x (n+2)), runs {2: 600, 1: 240}, 5 categories, loss gaps {3: 120, 1: 1320}
+k= 6 n= 54 (n mod 8 = 6): letter level cycle, period 28 | cards: loop length 672 (= 12 x (n+2)), runs {2: 288, 1: 96}, 5 categories, loss gaps {3: 48, 1: 624}
+k= 7 n= 62 (n mod 8 = 6): letter level cycle, period 32 | cards: loop length 2688 (= 42 x (n+2)), runs {2: 1176, 1: 336}, 5 categories, loss gaps {3: 168, 1: 2520}
+k= 8 n= 70 (n mod 8 = 6): letter level cycle, period 36 | cards: loop length 3456 (= 48 x (n+2)), runs {2: 1536, 1: 384}, 5 categories, loss gaps {3: 192, 1: 3264}
+k= 9 n= 78 (n mod 8 = 6): letter level cycle, period 40 | cards: loop length 1440 (= 18 x (n+2)), runs {2: 648, 1: 144}, 5 categories, loss gaps {3: 72, 1: 1368}
+k=10 n= 86 (n mod 8 = 6): letter level cycle, period 44 | cards: loop length 5280 (= 60 x (n+2)), runs {2: 2400, 1: 480}, 5 categories, loss gaps {3: 240, 1: 5040}
+k=11 n= 94 (n mod 8 = 6): letter level cycle, period 48 | cards: loop length 6336 (= 66 x (n+2)), runs {2: 2904, 1: 528}, 5 categories, loss gaps {3: 264, 1: 6072}
+k=12 n=102 (n mod 8 = 6): letter level cycle, period 52 | cards: loop length 2496 (= 24 x (n+2)), runs {2: 1152, 1: 192}, 5 categories, loss gaps {3: 96, 1: 2400}
+k= 1 n= 14  letters: cycle after 8 (4k+4=8)
+        L=96 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 72, 3: 24} not Theorem-3 type
+        L=96 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 72, 3: 24} not Theorem-3 type
+        L=96 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 72, 3: 24} not Theorem-3 type
+k= 2 n= 22  letters: cycle after 12 (4k+4=12)
+        L=288 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 240, 3: 48} not Theorem-3 type
+        L=288 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 240, 3: 48} not Theorem-3 type
+        L=288 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 240, 3: 48} not Theorem-3 type
+k= 3 n= 30  letters: cycle after 16 (4k+4=16)
+        L=192 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 168, 3: 24} not Theorem-3 type
+        L=192 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 168, 3: 24} not Theorem-3 type
+        L=192 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 168, 3: 24} not Theorem-3 type
+k= 4 n= 38  letters: cycle after 20 (4k+4=20)
+        L=960 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 864, 3: 96} not Theorem-3 type
+        L=960 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 864, 3: 96} not Theorem-3 type
+        L=960 (a multiple of n+2) tail=0 runs=[1, 2] cats=5 gaps={1: 864, 3: 96} not Theorem-3 type
+checked 56 (j=0..6, k=1..8) families: 0 failures
+j=0 k=1 n=  14  cycle, period 8          expected period     8  runs [1, 2]     OK
+j=0 k=2 n=  22  cycle, period 12         expected period    12  runs [1, 2]     OK
+j=0 k=3 n=  30  cycle, period 16         expected period    16  runs [1, 2]     OK
+j=0 k=4 n=  38  cycle, period 20         expected period    20  runs [1, 2]     OK
+j=0 k=5 n=  46  cycle, period 24         expected period    24  runs [1, 2]     OK
+j=0 k=6 n=  54  cycle, period 28         expected period    28  runs [1, 2]     OK
+j=1 k=1 n=  28  cycle, period 16         expected period    16  runs [1, 4]     OK
+j=1 k=2 n=  44  cycle, period 24         expected period    24  runs [1, 4]     OK
+j=1 k=3 n=  60  cycle, period 32         expected period    32  runs [1, 4]     OK
+j=1 k=4 n=  76  cycle, period 40         expected period    40  runs [1, 4]     OK
+j=1 k=5 n=  92  cycle, period 48         expected period    48  runs [1, 4]     OK
+j=1 k=6 n= 108  cycle, period 56         expected period    56  runs [1, 4]     OK
+j=2 k=1 n=  56  cycle, period 32         expected period    32  runs [1, 8]     OK
+j=2 k=2 n=  88  cycle, period 48         expected period    48  runs [1, 8]     OK
+j=2 k=3 n= 120  cycle, period 64         expected period    64  runs [1, 8]     OK
+j=2 k=4 n= 152  cycle, period 80         expected period    80  runs [1, 8]     OK
+j=2 k=5 n= 184  cycle, period 96         expected period    96  runs [1, 8]     OK
+j=2 k=6 n= 216  cycle, period 112        expected period   112  runs [1, 8]     OK
+j=3 k=1 n= 112  cycle, period 64         expected period    64  runs [1, 16]    OK
+j=3 k=2 n= 176  cycle, period 96         expected period    96  runs [1, 16]    OK
+j=3 k=3 n= 240  cycle, period 128        expected period   128  runs [1, 16]    OK
+j=3 k=4 n= 304  cycle, period 160        expected period   160  runs [1, 16]    OK
+j=3 k=5 n= 368  cycle, period 192        expected period   192  runs [1, 16]    OK
+j=3 k=6 n= 432  cycle, period 224        expected period   224  runs [1, 16]    OK
+j=4 k=1 n= 224  cycle, period 128        expected period   128  runs [1, 32]    OK
+j=4 k=2 n= 352  cycle, period 192        expected period   192  runs [1, 32]    OK
+j=4 k=3 n= 480  cycle, period 256        expected period   256  runs [1, 32]    OK
+j=4 k=4 n= 608  cycle, period 320        expected period   320  runs [1, 32]    OK
+j=4 k=5 n= 736  cycle, period 384        expected period   384  runs [1, 32]    OK
+j=4 k=6 n= 864  cycle, period 448        expected period   448  runs [1, 32]    OK
+j=5 k=1 n= 448  cycle, period 256        expected period   256  runs [1, 64]    OK
+j=5 k=2 n= 704  cycle, period 384        expected period   384  runs [1, 64]    OK
+j=5 k=3 n= 960  cycle, period 512        expected period   512  runs [1, 64]    OK
+j=5 k=4 n=1216  cycle, period 640        expected period   640  runs [1, 64]    OK
+j=5 k=5 n=1472  cycle, period 768        expected period   768  runs [1, 64]    OK
+j=5 k=6 n=1728  cycle, period 896        expected period   896  runs [1, 64]    OK
+letter-level failures: 0
+--- real cards (small n) ---
+j=0 k=1 n= 14  card loop length 96  runs [1, 2]
+j=1 k=1 n= 28  card loop length 3360  runs [1, 4]
+j=0 k=2 n= 22  card loop length 288  runs [1, 2]
+j=1 k=2 n= 44  card loop length 720  runs [1, 4]
+j=2 k=1 n= 56  card loop length 349440  runs [1, 8]
+Doubled family
+j=0 k=1 n=  14: phases OK, letter cycle OK period 8, runs {2: 2, 1: 4}, cards: cycle of length 96, multiple of n+2^(j+1): True
+j=0 k=2 n=  22: phases OK, letter cycle OK period 12, runs {2: 4, 1: 4}, cards: cycle of length 288, multiple of n+2^(j+1): True
+j=0 k=3 n=  30: phases OK, letter cycle OK period 16, runs {2: 6, 1: 4}, cards: cycle of length 192, multiple of n+2^(j+1): True
+j=0 k=4 n=  38: phases OK, letter cycle OK period 20, runs {2: 8, 1: 4}, cards: cycle of length 960, multiple of n+2^(j+1): True
+j=0 k=5 n=  46: phases OK, letter cycle OK period 24, runs {2: 10, 1: 4}, cards: cycle of length 1440, multiple of n+2^(j+1): True
+j=0 k=6 n=  54: phases OK, letter cycle OK period 28, runs {2: 12, 1: 4}, cards: cycle of length 672, multiple of n+2^(j+1): True
+j=1 k=1 n=  28: phases OK, letter cycle OK period 16, runs {4: 2, 1: 8}, cards: cycle of length 3360, multiple of n+2^(j+1): True
+j=1 k=2 n=  44: phases OK, letter cycle OK period 24, runs {4: 4, 1: 8}, cards: cycle of length 720, multiple of n+2^(j+1): True
+j=1 k=3 n=  60: phases OK, letter cycle OK period 32, runs {4: 6, 1: 8}, cards: cycle of length 37440, multiple of n+2^(j+1): True
+j=1 k=4 n=  76: phases OK, letter cycle OK period 40, runs {4: 8, 1: 8}, cards: cycle of length 9600, multiple of n+2^(j+1): True
+j=1 k=5 n=  92: phases OK, letter cycle OK period 48, runs {4: 10, 1: 8}, cards: cycle of length 27360, multiple of n+2^(j+1): True
+j=1 k=6 n= 108: phases OK, letter cycle OK period 56, runs {4: 12, 1: 8}, cards: cycle of length 55440, multiple of n+2^(j+1): True
+j=2 k=1 n=  56: phases OK, letter cycle OK period 32, runs {8: 2, 1: 16}, cards: cycle of length 349440, multiple of n+2^(j+1): True
+j=2 k=2 n=  88: phases OK, letter cycle OK period 48, runs {8: 4, 1: 16}, cards: cycle of length 822528, multiple of n+2^(j+1): True
+j=2 k=3 n= 120: phases OK, letter cycle OK period 64, runs {8: 6, 1: 16}, cards: cycle of length 4053504, multiple of n+2^(j+1): True
+j=2 k=4 n= 152: phases OK, letter cycle OK period 80, runs {8: 8, 1: 16}
+j=2 k=5 n= 184: phases OK, letter cycle OK period 96, runs {8: 10, 1: 16}
+j=2 k=6 n= 216: phases OK, letter cycle OK period 112, runs {8: 12, 1: 16}
+j=3 k=1 n= 112: phases OK, letter cycle OK period 64, runs {16: 2, 1: 32}, cards: not settled within 20,000,000 turns
+j=3 k=2 n= 176: phases OK, letter cycle OK period 96, runs {16: 4, 1: 32}
+j=3 k=3 n= 240: phases OK, letter cycle OK period 128, runs {16: 6, 1: 32}
+j=3 k=4 n= 304: phases OK, letter cycle OK period 160, runs {16: 8, 1: 32}
+j=3 k=5 n= 368: phases OK, letter cycle OK period 192, runs {16: 10, 1: 32}
+j=3 k=6 n= 432: phases OK, letter cycle OK period 224, runs {16: 12, 1: 32}
+j=4 k=1 n= 224: phases OK, letter cycle OK period 128, runs {32: 2, 1: 64}
+j=4 k=2 n= 352: phases OK, letter cycle OK period 192, runs {32: 4, 1: 64}
+j=4 k=3 n= 480: phases OK, letter cycle OK period 256, runs {32: 6, 1: 64}
+j=4 k=4 n= 608: phases OK, letter cycle OK period 320, runs {32: 8, 1: 64}
+j=4 k=5 n= 736: phases OK, letter cycle OK period 384, runs {32: 10, 1: 64}
+j=4 k=6 n= 864: phases OK, letter cycle OK period 448, runs {32: 12, 1: 64}
+j=5 k=1 n= 448: phases OK, letter cycle OK period 256, runs {64: 2, 1: 128}
+j=5 k=2 n= 704: phases OK, letter cycle OK period 384, runs {64: 4, 1: 128}
+j=5 k=3 n= 960: phases OK, letter cycle OK period 512, runs {64: 6, 1: 128}
+j=5 k=4 n=1216: phases OK, letter cycle OK period 640, runs {64: 8, 1: 128}
+j=5 k=5 n=1472: phases OK, letter cycle OK period 768, runs {64: 10, 1: 128}
+j=5 k=6 n=1728: phases OK, letter cycle OK period 896, runs {64: 12, 1: 128}
+passed 35, failed 0, letter checks passed but card game not settled 1
+Family n = 8k + 6, k = 1..40
+every S(i) and the period 4k + 4 as stated, k = 1..40: True
+numbered cycles, k = 1..16: every card's category equals its letter: True
+
+== Deals that reach the doubled family
+$ cd families; python reach_family.py; python reach_check.py
+j=0 k=1 n=14: deal 7+7, enters loop after 1 turns, loop 96, runs [1, 2] OK
+j=0 k=2 n=22: deal 11+11, enters loop after 1 turns, loop 288, runs [1, 2] OK
+j=0 k=3 n=30: deal 15+15, enters loop after 1 turns, loop 192, runs [1, 2] OK
+j=0 k=4 n=38: deal 19+19, enters loop after 1 turns, loop 960, runs [1, 2] OK
+j=0 k=5 n=46: deal 23+23, enters loop after 1 turns, loop 1440, runs [1, 2] OK
+j=1 k=1 n=28: deal 14+14, enters loop after 2 turns, loop 3360, runs [1, 4] OK
+j=1 k=2 n=44: deal 22+22, enters loop after 2 turns, loop 720, runs [1, 4] OK
+j=1 k=3 n=60: deal 30+30, enters loop after 2 turns, loop 37440, runs [1, 4] OK
+j=1 k=4 n=76: deal 38+38, enters loop after 2 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=1 k=5 n=92: deal 46+46, enters loop after 2 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=2 k=1 n=56: deal 28+28, enters loop after 4 turns, loop 349440, runs [1, 8] OK
+j=2 k=2 n=88: deal 44+44, enters loop after 4 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=2 k=3 n=120: deal 60+60, enters loop after 4 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=2 k=4 n=152: deal 76+76, enters loop after 4 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=2 k=5 n=184: deal 92+92, enters loop after 4 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=3 k=1 n=112: deal 56+56, enters loop after 8 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=3 k=2 n=176: deal 88+88, enters loop after 8 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=3 k=3 n=240: deal 120+120, enters loop after 8 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=3 k=4 n=304: deal 152+152, enters loop after 8 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=3 k=5 n=368: deal 184+184, enters loop after 8 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=4 k=1 n=224: deal 112+112, enters loop after 16 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=4 k=2 n=352: deal 176+176, enters loop after 16 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=4 k=3 n=480: deal 240+240, enters loop after 16 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=4 k=4 n=608: deal 304+304, enters loop after 16 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=4 k=5 n=736: deal 368+368, enters loop after 16 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=5 k=1 n=448: deal 224+224, enters loop after 32 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=5 k=2 n=704: deal 352+352, enters loop after 32 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=5 k=3 n=960: deal 480+480, enters loop after 32 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=5 k=4 n=1216: deal 608+608, enters loop after 32 turns, loop not played (the letter-level check covers it), runs n/a OK
+j=5 k=5 n=1472: deal 736+736, enters loop after 32 turns, loop not played (the letter-level check covers it), runs n/a OK
+30 cases, 0 failures
+j=0 k=1 n=  14: deal balanced=True, off-loop=True, replays onto loop in 2^j=1 turns: True
+j=0 k=2 n=  22: deal balanced=True, off-loop=True, replays onto loop in 2^j=1 turns: True
+j=0 k=3 n=  30: deal balanced=True, off-loop=True, replays onto loop in 2^j=1 turns: True
+j=0 k=4 n=  38: deal balanced=True, off-loop=True, replays onto loop in 2^j=1 turns: True
+j=1 k=1 n=  28: deal balanced=True, off-loop=True, replays onto loop in 2^j=2 turns: True
+j=1 k=2 n=  44: deal balanced=True, off-loop=True, replays onto loop in 2^j=2 turns: True
+j=1 k=3 n=  60: deal balanced=True, off-loop=True, replays onto loop in 2^j=2 turns: True
+j=1 k=4 n=  76: deal balanced=True, off-loop=True, replays onto loop in 2^j=2 turns: True
+j=2 k=1 n=  56: deal balanced=True, off-loop=True, replays onto loop in 2^j=4 turns: True
+j=2 k=2 n=  88: deal balanced=True, off-loop=True, replays onto loop in 2^j=4 turns: True
+j=2 k=3 n= 120: deal balanced=True, off-loop=True, replays onto loop in 2^j=4 turns: True
+j=2 k=4 n= 152: deal balanced=True, off-loop=True, replays onto loop in 2^j=4 turns: True
+j=3 k=1 n= 112: deal balanced=True, off-loop=True, replays onto loop in 2^j=8 turns: True
+j=3 k=2 n= 176: deal balanced=True, off-loop=True, replays onto loop in 2^j=8 turns: True
+j=3 k=3 n= 240: deal balanced=True, off-loop=True, replays onto loop in 2^j=8 turns: True
+j=3 k=4 n= 304: deal balanced=True, off-loop=True, replays onto loop in 2^j=8 turns: True
+j=4 k=1 n= 224: deal balanced=True, off-loop=True, replays onto loop in 2^j=16 turns: True
+j=4 k=2 n= 352: deal balanced=True, off-loop=True, replays onto loop in 2^j=16 turns: True
+j=4 k=3 n= 480: deal balanced=True, off-loop=True, replays onto loop in 2^j=16 turns: True
+j=4 k=4 n= 608: deal balanced=True, off-loop=True, replays onto loop in 2^j=16 turns: True
+all cases pass: True
+
+== The families K and F, and the six classes at n = 22
+$ cd families; python more_families.py
+Theorem K, s <= 6, 1 <= t <= 6: tie-free, least period 8, runs of 1 and 2; the cards that never win are the
+s + t + 1 cards E, on one sigma-orbit, each of period n + 2; the cycle length is a multiple of n + 2
+  all hold: True
+Theorem F, r <= 4, k <= 4: tie-free, least period 4(k + r + 1), runs of 1 and 2, n = 8(k + r) + 6; categories
+equal the letters (2r + 5 of them); every card that never wins has period n + 2^v; length a multiple of n + 2^v
+  all hold: True
+n = 22: the six classes printed by 'sampler 22 10000000 8 22 pos' (first example of each), with the cycle
+length and category sizes of the family members, and a doubled position entering each class
+  class 240                  length   240  family member: K(0,2)          doubled position 1 turns before: D(CDABCDAB) | D(DAB)
+  class 288                  length   288  family member: F(0,2)          doubled position 1 turns before: D(CDABAB) | D(DABAB)
+  class 360 (2,3,3,5,4,3,2)  length   360  family member: none            doubled position 3 turns before: D(AFCD) | D(DEFABCD)
+  class 360 (3,5,3,3,3,3,2)  length   360  family member: F(1,1)          doubled position 3 turns before: D(AFAB) | D(DEFABCD)
+  class 672                  length   672  family member: K(1,1)          doubled position 7 turns before: D(DABCD) | D(ABADAB)
+  class 1440                 length  1440  family member: none            doubled position 5 turns before: D(DADCD) | D(ABCDAB)
+  K(0,2): n = 22, cycle length 240, category sizes [3, 6, 5, 5, 3]
+  K(1,1): n = 22, cycle length 672, category sizes [4, 7, 4, 4, 3]
+  F(0,2): n = 22, cycle length 288, category sizes [4, 8, 5, 3, 2]
+  F(1,1): n = 22, cycle length 360, category sizes [3, 5, 3, 3, 3, 3, 2]
+the two doubled bases named in the text: each base is a tie-free 11-card letter cycle, and its doubling leads
+into the letter cycle of the class
+  base ADCDAD | BCDAB: on its own tie-free letter cycle: True, period 12; D(base) reaches a cycle after 11 turns; that cycle is the class 1440: True
+  base ADCF | BCDEFAD: on its own tie-free letter cycle: True, period 12; D(base) reaches a cycle after 13 turns; that cycle is the class 360 (2,3,3,5,4,3,2): True
+n = 22, every listed position ('sampler 22 10000000 8 22 pos 20000000 list', saved in data/sampler_n22_list.txt):
+its cycle's category letters are matched against the family members above, and otherwise searched backwards for
+a doubled position whose undoubled words lie on their own tie-free letter cycle
+  318 positions
+  length   240, sizes 3,6,5,5,3      : 1 letter cycle(s); 50 K(0,2)
+  length   288, sizes 4,8,5,3,2      : 1 letter cycle(s); 194 F(0,2)
+  length   360, sizes 2,3,3,5,4,3,2  : 1 letter cycle(s); 6 doubled 11-card base, 3 turns before
+  length   360, sizes 3,5,3,3,3,3,2  : 1 letter cycle(s); 5 F(1,1)
+  length   672, sizes 4,7,4,4,3      : 1 letter cycle(s); 48 K(1,1)
+  length  1440, sizes 3,5,4,6,4      : 1 letter cycle(s); 15 doubled 11-card base, 5 turns before
+Spivey's numerical labeling: numbered cycles of members with n <= 38, every letter beating every later letter,
+played in full; categories under the definition used here and under the numerical labeling, and the run lengths
+  19 members (K(0,1) = F(0,1)), on 19 different letter cycles
+  K(0,1): n = 14, length 96, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(0,2): n = 22, length 240, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(1,1): n = 22, length 672, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(0,2): n = 22, length 288, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(1,1): n = 22, length 360, categories 7 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(0,3): n = 30, length 1344, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(1,2): n = 30, length 288, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(2,1): n = 30, length 160, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(0,3): n = 30, length 192, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(1,2): n = 30, length 288, categories 7 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(2,1): n = 30, length 96, categories 9 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(0,4): n = 38, length 1440, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(1,3): n = 38, length 10560, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(2,2): n = 38, length 3360, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  K(3,1): n = 38, length 21840, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(0,4): n = 38, length 960, categories 5 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(1,3): n = 38, length 3120, categories 7 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(2,2): n = 38, length 1200, categories 9 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+  F(3,1): n = 38, length 1680, categories 11 (Section 2) and 3 (numerical labeling), runs of wins [1, 2]
+Reachability of the cycles of Theorem F, r, k <= 4, every letter beating every later letter: after the first two
+turns player 1 holds n/2 - 1 cards and player 2's pile ends with (D+2r)(E+2r); undoing one win of player 2 gives
+a deal with n/2 cards each, not on the cycle, that enters it after one turn
+  all hold: True
+
+== Cycle lengths of every family member with n <= 255
+$ cd cpu; for j in 0 1 2 3 4; do for k in $(seq 1 31); do n=$(( (1 << (j+1)) * (4*k+3) )); [ $n -le 255 ] && ./cycle_length doubled $j $k; done; done
+doubled family j=0 k=1
+n=14: player 1 holds 4 cards, player 2 holds 10
+the game cycles: cycle length 96, entered after 0 turns
+n + 2^v = 16 divides the length: 96 = 16 x 6
+doubled family j=0 k=2
+n=22: player 1 holds 8 cards, player 2 holds 14
+the game cycles: cycle length 288, entered after 0 turns
+n + 2^v = 24 divides the length: 288 = 24 x 12
+doubled family j=0 k=3
+n=30: player 1 holds 12 cards, player 2 holds 18
+the game cycles: cycle length 192, entered after 0 turns
+n + 2^v = 32 divides the length: 192 = 32 x 6
+doubled family j=0 k=4
+n=38: player 1 holds 16 cards, player 2 holds 22
+the game cycles: cycle length 960, entered after 0 turns
+n + 2^v = 40 divides the length: 960 = 40 x 24
+doubled family j=0 k=5
+n=46: player 1 holds 20 cards, player 2 holds 26
+the game cycles: cycle length 1440, entered after 0 turns
+n + 2^v = 48 divides the length: 1440 = 48 x 30
+doubled family j=0 k=6
+n=54: player 1 holds 24 cards, player 2 holds 30
+the game cycles: cycle length 672, entered after 0 turns
+n + 2^v = 56 divides the length: 672 = 56 x 12
+doubled family j=0 k=7
+n=62: player 1 holds 28 cards, player 2 holds 34
+the game cycles: cycle length 2688, entered after 0 turns
+n + 2^v = 64 divides the length: 2688 = 64 x 42
+doubled family j=0 k=8
+n=70: player 1 holds 32 cards, player 2 holds 38
+the game cycles: cycle length 3456, entered after 0 turns
+n + 2^v = 72 divides the length: 3456 = 72 x 48
+doubled family j=0 k=9
+n=78: player 1 holds 36 cards, player 2 holds 42
+the game cycles: cycle length 1440, entered after 0 turns
+n + 2^v = 80 divides the length: 1440 = 80 x 18
+doubled family j=0 k=10
+n=86: player 1 holds 40 cards, player 2 holds 46
+the game cycles: cycle length 5280, entered after 0 turns
+n + 2^v = 88 divides the length: 5280 = 88 x 60
+doubled family j=0 k=11
+n=94: player 1 holds 44 cards, player 2 holds 50
+the game cycles: cycle length 6336, entered after 0 turns
+n + 2^v = 96 divides the length: 6336 = 96 x 66
+doubled family j=0 k=12
+n=102: player 1 holds 48 cards, player 2 holds 54
+the game cycles: cycle length 2496, entered after 0 turns
+n + 2^v = 104 divides the length: 2496 = 104 x 24
+doubled family j=0 k=13
+n=110: player 1 holds 52 cards, player 2 holds 58
+the game cycles: cycle length 8736, entered after 0 turns
+n + 2^v = 112 divides the length: 8736 = 112 x 78
+doubled family j=0 k=14
+n=118: player 1 holds 56 cards, player 2 holds 62
+the game cycles: cycle length 10080, entered after 0 turns
+n + 2^v = 120 divides the length: 10080 = 120 x 84
+doubled family j=0 k=15
+n=126: player 1 holds 60 cards, player 2 holds 66
+the game cycles: cycle length 3840, entered after 0 turns
+n + 2^v = 128 divides the length: 3840 = 128 x 30
+doubled family j=0 k=16
+n=134: player 1 holds 64 cards, player 2 holds 70
+the game cycles: cycle length 13056, entered after 0 turns
+n + 2^v = 136 divides the length: 13056 = 136 x 96
+doubled family j=0 k=17
+n=142: player 1 holds 68 cards, player 2 holds 74
+the game cycles: cycle length 14688, entered after 0 turns
+n + 2^v = 144 divides the length: 14688 = 144 x 102
+doubled family j=0 k=18
+n=150: player 1 holds 72 cards, player 2 holds 78
+the game cycles: cycle length 5472, entered after 0 turns
+n + 2^v = 152 divides the length: 5472 = 152 x 36
+doubled family j=0 k=19
+n=158: player 1 holds 76 cards, player 2 holds 82
+the game cycles: cycle length 18240, entered after 0 turns
+n + 2^v = 160 divides the length: 18240 = 160 x 114
+doubled family j=0 k=20
+n=166: player 1 holds 80 cards, player 2 holds 86
+the game cycles: cycle length 20160, entered after 0 turns
+n + 2^v = 168 divides the length: 20160 = 168 x 120
+doubled family j=0 k=21
+n=174: player 1 holds 84 cards, player 2 holds 90
+the game cycles: cycle length 7392, entered after 0 turns
+n + 2^v = 176 divides the length: 7392 = 176 x 42
+doubled family j=0 k=22
+n=182: player 1 holds 88 cards, player 2 holds 94
+the game cycles: cycle length 24288, entered after 0 turns
+n + 2^v = 184 divides the length: 24288 = 184 x 132
+doubled family j=0 k=23
+n=190: player 1 holds 92 cards, player 2 holds 98
+the game cycles: cycle length 26496, entered after 0 turns
+n + 2^v = 192 divides the length: 26496 = 192 x 138
+doubled family j=0 k=24
+n=198: player 1 holds 96 cards, player 2 holds 102
+the game cycles: cycle length 9600, entered after 0 turns
+n + 2^v = 200 divides the length: 9600 = 200 x 48
+doubled family j=0 k=25
+n=206: player 1 holds 100 cards, player 2 holds 106
+the game cycles: cycle length 31200, entered after 0 turns
+n + 2^v = 208 divides the length: 31200 = 208 x 150
+doubled family j=0 k=26
+n=214: player 1 holds 104 cards, player 2 holds 110
+the game cycles: cycle length 33696, entered after 0 turns
+n + 2^v = 216 divides the length: 33696 = 216 x 156
+doubled family j=0 k=27
+n=222: player 1 holds 108 cards, player 2 holds 114
+the game cycles: cycle length 12096, entered after 0 turns
+n + 2^v = 224 divides the length: 12096 = 224 x 54
+doubled family j=0 k=28
+n=230: player 1 holds 112 cards, player 2 holds 118
+the game cycles: cycle length 38976, entered after 0 turns
+n + 2^v = 232 divides the length: 38976 = 232 x 168
+doubled family j=0 k=29
+n=238: player 1 holds 116 cards, player 2 holds 122
+the game cycles: cycle length 41760, entered after 0 turns
+n + 2^v = 240 divides the length: 41760 = 240 x 174
+doubled family j=0 k=30
+n=246: player 1 holds 120 cards, player 2 holds 126
+the game cycles: cycle length 14880, entered after 0 turns
+n + 2^v = 248 divides the length: 14880 = 248 x 60
+doubled family j=0 k=31
+n=254: player 1 holds 124 cards, player 2 holds 130
+the game cycles: cycle length 47616, entered after 0 turns
+n + 2^v = 256 divides the length: 47616 = 256 x 186
+doubled family j=1 k=1
+n=28: player 1 holds 8 cards, player 2 holds 20
+the game cycles: cycle length 3360, entered after 0 turns
+n + 2^v = 32 divides the length: 3360 = 32 x 105
+doubled family j=1 k=2
+n=44: player 1 holds 16 cards, player 2 holds 28
+the game cycles: cycle length 720, entered after 0 turns
+n + 2^v = 48 divides the length: 720 = 48 x 15
+doubled family j=1 k=3
+n=60: player 1 holds 24 cards, player 2 holds 36
+the game cycles: cycle length 37440, entered after 0 turns
+n + 2^v = 64 divides the length: 37440 = 64 x 585
+doubled family j=1 k=4
+n=76: player 1 holds 32 cards, player 2 holds 44
+the game cycles: cycle length 9600, entered after 0 turns
+n + 2^v = 80 divides the length: 9600 = 80 x 120
+doubled family j=1 k=5
+n=92: player 1 holds 40 cards, player 2 holds 52
+the game cycles: cycle length 27360, entered after 0 turns
+n + 2^v = 96 divides the length: 27360 = 96 x 285
+doubled family j=1 k=6
+n=108: player 1 holds 48 cards, player 2 holds 60
+the game cycles: cycle length 55440, entered after 0 turns
+n + 2^v = 112 divides the length: 55440 = 112 x 495
+doubled family j=1 k=7
+n=124: player 1 holds 56 cards, player 2 holds 68
+the game cycles: cycle length 67200, entered after 0 turns
+n + 2^v = 128 divides the length: 67200 = 128 x 525
+doubled family j=1 k=8
+n=140: player 1 holds 64 cards, player 2 holds 76
+the game cycles: cycle length 60480, entered after 0 turns
+n + 2^v = 144 divides the length: 60480 = 144 x 420
+doubled family j=1 k=9
+n=156: player 1 holds 72 cards, player 2 holds 84
+the game cycles: cycle length 669600, entered after 0 turns
+n + 2^v = 160 divides the length: 669600 = 160 x 4185
+doubled family j=1 k=10
+n=172: player 1 holds 80 cards, player 2 holds 92
+the game cycles: cycle length 44880, entered after 0 turns
+n + 2^v = 176 divides the length: 44880 = 176 x 255
+doubled family j=1 k=11
+n=188: player 1 holds 88 cards, player 2 holds 100
+the game cycles: cycle length 1172160, entered after 0 turns
+n + 2^v = 192 divides the length: 1172160 = 192 x 6105
+doubled family j=1 k=12
+n=204: player 1 holds 96 cards, player 2 holds 108
+the game cycles: cycle length 37440, entered after 0 turns
+n + 2^v = 208 divides the length: 37440 = 208 x 180
+doubled family j=1 k=13
+n=220: player 1 holds 104 cards, player 2 holds 116
+the game cycles: cycle length 1878240, entered after 0 turns
+n + 2^v = 224 divides the length: 1878240 = 224 x 8385
+doubled family j=1 k=14
+n=236: player 1 holds 112 cards, player 2 holds 124
+the game cycles: cycle length 579600, entered after 0 turns
+n + 2^v = 240 divides the length: 579600 = 240 x 2415
+doubled family j=1 k=15
+n=252: player 1 holds 120 cards, player 2 holds 132
+the game cycles: cycle length 564480, entered after 0 turns
+n + 2^v = 256 divides the length: 564480 = 256 x 2205
+doubled family j=2 k=1
+n=56: player 1 holds 16 cards, player 2 holds 40
+the game cycles: cycle length 349440, entered after 0 turns
+n + 2^v = 64 divides the length: 349440 = 64 x 5460
+doubled family j=2 k=2
+n=88: player 1 holds 32 cards, player 2 holds 56
+the game cycles: cycle length 822528, entered after 0 turns
+n + 2^v = 96 divides the length: 822528 = 96 x 8568
+doubled family j=2 k=3
+n=120: player 1 holds 48 cards, player 2 holds 72
+the game cycles: cycle length 4053504, entered after 0 turns
+n + 2^v = 128 divides the length: 4053504 = 128 x 31668
+doubled family j=2 k=4
+n=152: player 1 holds 64 cards, player 2 holds 88
+the game cycles: cycle length 26503680, entered after 0 turns
+n + 2^v = 160 divides the length: 26503680 = 160 x 165648
+doubled family j=2 k=5
+n=184: player 1 holds 80 cards, player 2 holds 104
+the game cycles: cycle length 241920, entered after 0 turns
+n + 2^v = 192 divides the length: 241920 = 192 x 1260
+doubled family j=2 k=6
+n=216: player 1 holds 96 cards, player 2 holds 120
+the game cycles: cycle length 38572800, entered after 0 turns
+n + 2^v = 224 divides the length: 38572800 = 224 x 172200
+doubled family j=2 k=7
+n=248: player 1 holds 112 cards, player 2 holds 136
+the game cycles: cycle length 38040576, entered after 0 turns
+n + 2^v = 256 divides the length: 38040576 = 256 x 148596
+doubled family j=3 k=1
+n=112: player 1 holds 32 cards, player 2 holds 80
+the game cycles: cycle length 219098880, entered after 0 turns
+n + 2^v = 128 divides the length: 219098880 = 128 x 1711710
+doubled family j=3 k=2
+n=176: player 1 holds 64 cards, player 2 holds 112
+the game cycles: cycle length 2946240, entered after 0 turns
+n + 2^v = 192 divides the length: 2946240 = 192 x 15345
+doubled family j=3 k=3
+n=240: player 1 holds 96 cards, player 2 holds 144
+the game cycles: cycle length 5855351040, entered after 0 turns
+n + 2^v = 256 divides the length: 5855351040 = 256 x 22872465
+doubled family j=4 k=1
+n=224: player 1 holds 64 cards, player 2 holds 160
+the game cycles: cycle length 4766361600, entered after 0 turns
+n + 2^v = 256 divides the length: 4766361600 = 256 x 18618600
+
+== Cards that never win, and the 14-card numberings
+$ cd families; python family_tokens.py
+Part 1: period of every card that never wins, members with n <= 255
+  57 members; orbits of cards that never win, by letter: {'C': 465, 'D': 105, 'E': 52, 'F': 18, 'G': 7, 'H': 3, 'I': 1}
+  the cards that never win are the last cards of Z, of Y and of both players' first k - 1 copies of T,
+  and each lies on a 2-cycle of pi: True
+  every card that never wins has period n + 2^v: True
+Part 2: n = 14
+  letter period 8; the cards return to their places after 12 periods
+  numberings that respect the order: 8640 (enumerated: 8640)
+  distinct cycles, counting a cycle and its exchange as one: 720; lengths over all numberings: {96: 8640}
+
+== Period of card 1 in cycles not of Theorem-3 type
+$ cd cycles; python lowcard_period.py
+family k=1               n= 14 L=     96  card-1 period 16  n+2^v=16  equal: True
+family k=2               n= 22 L=    288  card-1 period 24  n+2^v=24  equal: True
+family k=3               n= 30 L=    192  card-1 period 32  n+2^v=32  equal: True
+family k=4               n= 38 L=    960  card-1 period 40  n+2^v=40  equal: True
+family k=5               n= 46 L=   1440  card-1 period 48  n+2^v=48  equal: True
+family k=6               n= 54 L=    672  card-1 period 56  n+2^v=56  equal: True
+family k=7               n= 62 L=   2688  card-1 period 64  n+2^v=64  equal: True
+family k=8               n= 70 L=   3456  card-1 period 72  n+2^v=72  equal: True
+doubled j=1 k=1          n= 28 L=   3360  card-1 period 32  n+2^v=32  equal: True
+doubled j=1 k=2          n= 44 L=    720  card-1 period 48  n+2^v=48  equal: True
+doubled j=1 k=3          n= 60 L=  37440  card-1 period 64  n+2^v=64  equal: True
+doubled j=2 k=1          n= 56 L= 349440  card-1 period 64  n+2^v=64  equal: True
+sampler n=22 #305173     n= 22 L=    240  card-1 period 24  n+2^v=24  equal: True
+sampler n=22 #9883       n= 22 L=    288  card-1 period 24  n+2^v=24  equal: True
+sampler n=22 #5116227    n= 22 L=    360  card-1 period 24  n+2^v=24  equal: True
+sampler n=22 #524086     n= 22 L=    360  card-1 period 24  n+2^v=24  equal: True
+sampler n=22 #19832      n= 22 L=    672  card-1 period 24  n+2^v=24  equal: True
+sampler n=22 #399258     n= 22 L=   1440  card-1 period 24  n+2^v=24  equal: True
+all equal: True
+
+== Spivey's categories on the 14-card cycles
+$ cd cycles; python spivey_categories.py
+n=14 loop of 96: loop 96, categories {1: 4, 2: 4, 3: 3, 4: 2, 5: 3, 6: 3, 7: 2, 8: 2, 9: 1, 10: 1, 11: 1, 12: 1, 13: 0, 14: 0}
+   category gaps over all losses: [1, 3] ; losses to 3+ categories above (7): [(1, 9, 3), (1, 10, 3), (2, 11, 3), (2, 12, 3), (3, 13, 3), (5, 13, 3), (6, 13, 3)]
+n=14 loop of 96 (the position in the paper): loop 96, categories {1: 4, 2: 4, 3: 3, 4: 2, 5: 3, 6: 3, 7: 2, 8: 2, 9: 1, 10: 1, 11: 1, 12: 1, 13: 0, 14: 0}
+   category gaps over all losses: [1, 3] ; losses to 3+ categories above (7): [(1, 9, 3), (1, 10, 3), (2, 11, 3), (2, 12, 3), (3, 13, 3), (5, 13, 3), (6, 13, 3)]
+n=14 loop of 112 (control): loop 112, categories {1: 2, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1, 11: 1, 12: 0, 13: 0, 14: 0}
+   category gaps over all losses: [1] ; losses to 3+ categories above (0): []
+
+== The Theorem-3 test on every 10-card cycle
+$ cd cycles; python cycle_type.py 10
+n=10: 48 distinct cycles (P1 holds n); 2^v=2; run-length sets seen [(2,)]; NOT Theorem-3 type: 0
