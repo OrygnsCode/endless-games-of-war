@@ -2,7 +2,7 @@
 
 Programs and data for counting the deals of the card game War that never end, for decks of
 up to 16 cards. They back the paper *Endless Games of War: Counting the Deals That Never End*
-(Daniel Okwor, 2026).
+(Daniel Okwor, 2026). The sequence is [A400411](https://oeis.org/A400411) in the OEIS.
 
 ## The game
 
@@ -161,7 +161,7 @@ build line, for example `gcc -O3 -march=native -fopenmp -o distinct_cycles disti
 and `g++ -O3 -march=native -fopenmp -o war war.cpp`. Everything else needs only Python 3.9 or
 later. The commands below start in the repository root.
 
-Without a GPU, the program from the OEIS entry prints a(1) to a(10) in about half a minute:
+Without a GPU, the program from the OEIS entry (A400411) prints a(1) to a(10) in about half a minute:
 
 ```
 python reference/oeis_program.py

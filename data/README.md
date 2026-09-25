@@ -6,7 +6,7 @@ cycle with the players exchanged}.
 
 | file | contents |
 |---|---|
-| `b_file.txt` | a(n) for n = 1..16 |
+| `b_file.txt` | a(n) for n = 1..16 (A400411) |
 | `deals.tsv` | for each n: the number of deals, how many never end, the longest game that ends (in turns), and the endless deals split by the length of the cycle they end in |
 | `canonical_positions.tsv` | for each n: the (n-1)! (n-1) positions in which player 1's top card is n, how many of them lead into a cycle, how many lie on one, and the number of cycles |
 | `odd_n_cycles.tsv` | odd n up to 41: the number of cycles from the formula for odd n, the split by length, and the canonical positions on a cycle |
