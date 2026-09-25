@@ -2,7 +2,8 @@
 
 Programs and data for counting the deals of the card game War that never end, for decks of
 up to 16 cards. They back the paper *Endless Games of War: Counting the Deals That Never End*
-(Daniel Okwor, 2026). The sequence is [A400411](https://oeis.org/A400411) in the OEIS.
+(Daniel Okwor, 2026, [doi:10.5281/zenodo.22957686](https://doi.org/10.5281/zenodo.22957686)). The sequence is
+[A400411](https://oeis.org/A400411) in the OEIS.
 
 ## The game
 
