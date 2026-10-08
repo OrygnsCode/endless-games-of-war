@@ -408,6 +408,16 @@ n=12 rule=loser_first half=False deals_simulated=479001600 (expected 479001600) 
 n=13 rule=loser_first half=False deals_simulated=6227020800 (expected 6227020800) cycling_found=5374605768 a(n)=5374605768 longest_finite=53 time=18.3s
 n=14 rule=loser_first half=True deals_simulated=43589145600 (expected 43589145600) cycling_found=2272220244 a(n)=4544440488 longest_finite=471 time=182.9s
 
+== Losing card first, n = 1..3, three programs
+$ cd gpu; python war_gpu.py 1 --nmin 1 --rule 1;  cd ../cpu; for n in 1 2 3; do ./loser_first $n 2; done;  for n in 1 2 3; do ./war_floyd $n 1; done
+n=1  a(n)=0  of 1  longest finite=0 rounds  0.0s
+loser-first n=1: deals 1, never end 0, longest ending game 0
+loser-first n=2: deals 2, never end 0, longest ending game 1
+loser-first n=3: deals 6, never end 2, longest ending game 2
+n=1 cyc=0 tot=1 maxrounds=0
+sA=1 n=2 rule=1 cyc=0 tot=2 maxrounds=1
+sA=2 n=3 rule=1 cyc=2 tot=6 maxrounds=2
+
 == Losing card first, canonical positions, both GPU programs
 $ cd gpu; python war_gpu.py 12 --nmin 2 --canon --rule 1;  for n in $(seq 2 12); do python war_gpu_floyd.py $n --canon --loser-first; done
 n=2  canonical positions cycling=0  of 1  longest finite=1 rounds  0.0s

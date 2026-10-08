@@ -11,7 +11,7 @@ cycle with the players exchanged}.
 | `canonical_positions.tsv` | for each n: the (n-1)! (n-1) positions in which player 1's top card is n, how many of them lead into a cycle, how many lie on one, and the number of cycles |
 | `odd_n_cycles.tsv` | odd n up to 41: the number of cycles from the formula for odd n, the split by length, and the canonical positions on a cycle |
 | `spivey_type_cycles.tsv` | even n up to 46: the number of cycles of Spivey's Theorem-3 type, with the split by length (for odd n every cycle is of that type, so `odd_n_cycles.tsv` has them) |
-| `loser_first.tsv` | the same count when the losing card goes under the winner's pile first, n = 2..15 |
+| `loser_first.tsv` | the same count when the losing card goes under the winner's pile first, n = 1..15 |
 | `long_runs.txt` | the final output lines of the runs for n = 13 to 16, and of two sample runs at n = 17, as the programs printed them |
 | `doubled_bases.txt` | every letter position (m = 7 and 11 cards, four to six different letters, every word and every split) whose doubling is a cycle not of Spivey's Theorem-3 type, as `cpu/base_enum.c` lists them; `families/classify_doubled.py` reads it |
 | `sampler_n22_list.txt` | the output of `cpu/sampler 22 10000000 8 22 pos 20000000 list`: for each of the 318 sampled 22-card positions that reach a cycle not of Theorem-3 type, its sample number and a position on that cycle; `families/more_families.py` reads it |
@@ -28,7 +28,7 @@ only the half of the deals that was played, like `cycling_found`: for n = 14, 30
 ```
 cd gpu
 python war_gpu.py 13 --nmin 1 --hist 256
-python war_gpu.py 13 --nmin 2 --rule 1
+python war_gpu.py 13 --nmin 1 --rule 1
 ```
 
 The rows for n = 14 and 15 come from the long runs in `long_runs.txt`: `gpu/war_gpu.py --half` for
@@ -46,7 +46,8 @@ agree; the number of positions that lead into a cycle was not computed.
 `odd_n_cycles.tsv` and `spivey_type_cycles.tsv` are written by `counting/tables.py`. With the default
 limits it ran for about 45 minutes here on one core, most of it for the largest n.
 
-The loser-first values up to n = 13 were computed by `gpu/war_gpu.py --rule 1`,
+The loser-first value for n = 1 was computed by `gpu/war_gpu.py --rule 1`, `cpu/loser_first.c` and
+`cpu/war_floyd.c` (rule 1). The values for 2 <= n <= 13 were computed by `gpu/war_gpu.py --rule 1`,
 `gpu/war_gpu_floyd.py --loser-first` and `cpu/loser_first.c`, n = 14 by those three and
 `cpu/war.cpp` (mode 1), and n = 15 by the two GPU programs. With this rule both GPU programs also
 scanned every canonical position for n = 2..12 (`checks.txt`) and n = 16 (`long_runs.txt`): no
