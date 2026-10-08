@@ -46,8 +46,9 @@ agree; the number of positions that lead into a cycle was not computed.
 `odd_n_cycles.tsv` and `spivey_type_cycles.tsv` are written by `counting/tables.py`. With the default
 limits it ran for about 45 minutes here on one core, most of it for the largest n.
 
-The loser-first value for n = 1 was computed by `gpu/war_gpu.py --rule 1`, `cpu/loser_first.c` and
-`cpu/war_floyd.c` (rule 1). The values for 2 <= n <= 13 were computed by `gpu/war_gpu.py --rule 1`,
+For n = 1 the loser-first count is 0 at once, since player 2 starts with no cards; `gpu/war_gpu.py --rule 1`
+plays it, and `cpu/loser_first.c` and `cpu/war_floyd.c` print the value without playing (`checks.txt`).
+The values for 2 <= n <= 13 were computed by `gpu/war_gpu.py --rule 1`,
 `gpu/war_gpu_floyd.py --loser-first` and `cpu/loser_first.c`, n = 14 by those three and
 `cpu/war.cpp` (mode 1), and n = 15 by the two GPU programs. With this rule both GPU programs also
 scanned every canonical position for n = 2..12 (`checks.txt`) and n = 16 (`long_runs.txt`): no
