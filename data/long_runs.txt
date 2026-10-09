@@ -1,7 +1,14 @@
 Final output lines of the long runs, copied verbatim from the saved outputs of the programs in this
 repository. a(14), a(15) and the 16-card position scans, with either card first, were each computed by
-at least two of them. The two n = 17 lines at the end are one sample of 10^9 deals, played with both cycle
-tests of gpu/war24.py.
+at least two of them. The two n = 17 lines in the war24.py block below are one sample of 10^9 deals, played
+with both cycle tests of gpu/war24.py.
+
+a(17) was computed twice over all 17! deals, by gpu/war17.py and by gpu/war24.py with its streak test, and
+the two runs agree on every number. The war24.py run used a working copy whose executable code is the same
+as gpu/war24.py (only comments, the kernel's name, the size check and the progress-file names differ). It
+was resumed from its checkpoints, so its time= covers only its last stretch. The two short war24.py runs
+after it, made with the file in this repository, reproduce exactly what that copy logged for the first and
+the last stretch of its range.
 
 $ cd gpu; python war_gpu.py 14 --half --hist 256;  python war_gpu.py 15 --hist 256
 n=14  a(n)=3790165176  of 87178291200  longest finite=461 rounds  163.9s  (half)
@@ -55,3 +62,14 @@ $ cd gpu; python war24.py 14 --det floyd;  python war24.py 17 --det floyd --star
 n=14 det=floyd range=[0,87178291200) deals_simulated=87178291200 (expected 87178291200) cycling=3790165176 longest_finite=461 undetermined=0 time=148.5s
 n=17 det=floyd range=[100000000000000,100001000000000) deals_simulated=1000000000 (expected 1000000000) cycling=876533813 longest_finite=90 undetermined=0 time=7.1s
 n=17 det=streak range=[100000000000000,100001000000000) deals_simulated=1000000000 (expected 1000000000) cycling=876533813 longest_finite=90 undetermined=0 time=5.4s
+
+$ cd gpu; python war17.py 17 --out a17_war17 --resume
+n=17  a(n)=312707435743775  of 355687428096000 deals  longest finite=100  579202.7s  slowest launch 1.109s
+
+$ cd gpu; python war24.py 17 --det streak --chunk 16 --threads 262144 --tag _FULL --resume   (working copy, see above)
+n=17 det=streak range=[0,355687428096000) deals_simulated=355687428096000 (expected 355687428096000) cycling=312707435743775 longest_finite=100 undetermined=0 time=534090.3s
+
+$ cd gpu; python war24.py 17 --det streak --start 0 --count 8992587776 --chunk 16 --threads 262144 --tag _idA;
+  python war24.py 17 --det streak --start 355686642876416 --count 785219584 --chunk 16 --threads 262144 --tag _idB
+n=17 det=streak range=[0,8992587776) deals_simulated=8992587776 (expected 8992587776) cycling=8016845372 longest_finite=94 undetermined=0 time=13.2s
+n=17 det=streak range=[355686642876416,355687428096000) deals_simulated=785219584 (expected 785219584) cycling=168717860 longest_finite=54 undetermined=0 time=0.6s

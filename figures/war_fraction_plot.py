@@ -1,7 +1,8 @@
 # Figure: share of the n! deals of cards 1..n that never end (values as in data/b_file.txt).
 # Output: war_fraction.svg.
 from math import factorial
-a = [0, 0, 0, 0, 30, 0, 2304, 0, 218680, 395940, 28223770, 0, 4880546113, 3790165176, 1095264882758, 0]
+a = [0, 0, 0, 0, 30, 0, 2304, 0, 218680, 395940, 28223770, 0, 4880546113, 3790165176, 1095264882758, 0,
+     312707435743775]
 N = len(a)
 W, H = 790, 420
 L, R, T, B = 78, 180, 20, 70          # plot margins (series labels go in the right margin)
@@ -44,6 +45,6 @@ s.append(f'<rect x="{lx-5}" y="{Y(p)-18:.1f}" width="10" height="10" rx="1.5" fi
 s.append(f'<circle cx="{lx}" cy="{Y(0)-2:.1f}" r="5" fill="{BACKGROUND}" stroke="{GRAY}" stroke-width="2"/><text x="{lx+10}" y="{Y(0)+2:.1f}" font-size="12.5" fill="{BLACK}">no endless deal</text>')
 s.append(f'<text x="{lx+10}" y="{Y(0)+17:.1f}" font-size="11" fill="{DARKGRAY}">n = 1, 2, 3, 4, 6, 8, 12, 16</text>')
 s.append('</svg>')
-open("war_fraction.svg", "w", encoding="utf-8").write("\n".join(s))
+open("war_fraction.svg", "w", encoding="utf-8", newline="\n").write("\n".join(s))
 print("wrote war_fraction.svg")
 for n in range(1, N + 1): print(n, a[n-1], f"{pct[n-1]:.3f}%")

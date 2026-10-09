@@ -1,8 +1,8 @@
 # Endless games of War
 
 Programs and data for counting the deals of the card game War that never end, for decks of
-up to 16 cards. They back the paper *Endless Games of War: Counting the Deals That Never End*
-(Daniel Okwor, 2026, [doi:10.5281/zenodo.22957686](https://doi.org/10.5281/zenodo.22957686)). The sequence is
+up to 17 cards. They back the paper *Endless Games of War: Counting the Deals That Never End*
+(Daniel Okwor, 2026, [doi:10.5281/zenodo.22957685](https://doi.org/10.5281/zenodo.22957685)). The sequence is
 [A400411](https://oeis.org/A400411) in the OEIS.
 
 ## The game
@@ -38,6 +38,7 @@ game never ends.
 | 14 | 3,790,165,176 | 0.0435 | 461 |
 | 15 | 1,095,264,882,758 | 0.8376 | 80 |
 | 16 | 0 | 0 | not computed |
+| 17 | 312,707,435,743,775 | 0.8792 | 100 |
 
 Each value was computed by at least two programs that share no code (see Programs below).
 Spivey published a(10) = 395,940, and Delahaye and Mathieu (2025) searched the deals for
@@ -109,7 +110,9 @@ two GPU programs on the 16-card position scan. `gpu/war24.py`, a third GPU progr
 cards, also gives a(14). `cpu/war_all.cpp` plays every position (every order and every split)
 and, with `cpu/war_floyd.c`, confirms that no 12-card position cycles. The plain simulators
 `reference/war_ref.py` and `reference/oeis_program.py` reproduce the small terms directly
-from the rule. `gpu/war17.py` and `gpu/war24.py` go past 16 cards.
+from the rule. `gpu/war17.py` and `gpu/war24.py` go past 16 cards. Each played all 17! deals, with
+different cycle tests (Brent's method, and the streak test that the odd-n theorem allows), and both give
+a(17) = 312,707,435,743,775.
 
 The other programs look at the cycles themselves:
 
@@ -184,6 +187,14 @@ cd gpu
 python war_gpu.py 14 --half --hist 256
 python war_gpu.py 15 --hist 256 --out n15 --resume
 python war_gpu.py 16 --canon --shape --out n16c --resume
+```
+
+a(17) needs all 17! (about 3.6 x 10^14) deals, about a week on this GPU with either program:
+
+```
+cd gpu
+python war17.py 17 --out n17 --resume
+python war24.py 17 --det streak --resume
 ```
 
 a(13) from the second GPU program and from the two CPU programs (each takes one n):
