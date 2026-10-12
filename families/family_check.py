@@ -1,12 +1,11 @@
-"""Check of the infinite family of War cycles that are not of Spivey's Theorem-3 type, n = 8k+6.
-It shares no code with family_construct.py.
+"""Independent check (no code shared with family_construct.py) of the n = 8k+6 family of War cycles
+that are not of Spivey's Theorem-3 type.
 
-Claim: for n = 8k+6, the category-level position
+Claim: for n = 8k+6 the category-level position
     player 1: (ABBC)^k      player 2: DE (ABBC)^k CDDE        (A strongest ... E weakest)
-(1) cycles at the letter level with no turn between equal letters,
-(2) so any numbering of the cards consistent with the letters gives a real War game that never ends
-    (Spivey's Lemma 1: when equal letters never meet, every outcome is decided by the letters),
-(3) and that cycle is not of Spivey's Theorem-3 type.
+cycles at the letter level and equal letters never meet, so the letters decide every turn (Spivey's
+Lemma 1) and any numbering of the cards consistent with the letters gives a real War game that never
+ends. That cycle is not of Theorem-3 type.
 
 Checks:
   a) letter game: returns to start? no ties ever? letter period?

@@ -1,10 +1,10 @@
 # Classifies the doubled loops not of Theorem-3 type listed by base_enum (the "NEW e m P1 P2" lines, from canon mode
-# or from full mode with "list") by
-# quantities that do not depend on how the cards are numbered: n, the letter period P, the length P * ord(sigma) of
-# the numbered cycle, and the sizes of Spivey's categories. sigma is the permutation of places after one letter
-# period; a card stays on its sigma-orbit, so categories are computed on orbits: orbit O' beats orbit O when in some
-# turn of one period a place of O' beats a place of O, and the category is 0 if never beaten, else 1 + the largest
-# category among the orbits that beat it. Nothing plays a whole numbered cycle.
+# or from full mode with "list") by quantities that do not depend on how the cards are numbered: n, the letter
+# period P, the length P * ord(sigma) of the numbered cycle, and the sizes of Spivey's categories. sigma is the
+# permutation of places after one letter period; a card stays on its sigma-orbit, so categories are computed on
+# orbits: orbit O' beats orbit O when in some turn of one period a place of O' beats a place of O, and the category
+# is 0 if never beaten, else 1 + the largest category among the orbits that beat it.
+# Nothing plays a whole numbered cycle.
 # usage: python classify_doubled.py e m files...      (e = number of doublings, m = base size)
 import sys
 from collections import deque, Counter

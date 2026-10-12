@@ -6,7 +6,7 @@
    Mode "full": every word and every split, for comparing counts with base_search.c. Mode "canon": only words whose
    first letter is A (every letter cycle containing an A passes through such a position, up to exchanging the
    players), and every base whose doubling is not of Theorem-3 type is listed, sorted, as "NEW e m P1 P2". With the
-   optional fifth argument "list", full mode lists them too (the default output of full mode is unchanged).
+   optional fifth argument "list", full mode lists them too.
    usage: base_enum m full|canon threads [letters [list]]
    build: gcc -O3 -march=native -fopenmp -o base_enum base_enum.c */
 #include <stdio.h>

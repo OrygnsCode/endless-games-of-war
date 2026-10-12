@@ -8,9 +8,8 @@
 # i = 1..k-1; and after (k + 1) L turns, the start again, for the first time. The runs of wins must have
 # lengths 1 and 2^(j+1) only.
 # Card game (n <= 120): number the cards so that every letter beats every later letter; the game must
-# cycle, and the cycle length must be a multiple of n + 2^(j+1). Cycles are found with Brent's method.
-# A game that neither ends nor repeats within CAP turns is reported as not settled, and is not counted
-# as a pass or a failure.
+# cycle, with length a multiple of n + 2^(j+1). A game still going after CAP turns is "not settled",
+# neither a pass nor a failure.
 # For j = 0 the start is player 1: (ABBC)^k, player 2: DE (ABBC)^k CDDE. For k <= 40 the letter game must
 # pass through S(i) = (BC (ABBC)^(k-1-i) ADBE (ABBC)^i, (ABBC)^(k-i) CDDE (ABBC)^i) after 2 + 4i turns,
 # i = 0..k-1, and return to the start for the first time after 4k + 4 turns. For k <= 16 the numbered

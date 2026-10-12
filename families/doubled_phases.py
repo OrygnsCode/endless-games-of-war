@@ -1,4 +1,4 @@
-"""Check of the phase identities for the doubled family (see the paper).
+"""Phase identities of the doubled family (see the paper).
 Letters: A best; x+1 = next letter. D(w) = interleave(w, w+1) (Spivey's doubling). For j >= 0, k >= 1:
   T = D^j(ABBC), L = |T| = 4*2^j, H = D^j(AB), Q = D^j(BC), Y = D^j(CDDE), Z = D^j(DE),
   X = interleave(H, H+3)

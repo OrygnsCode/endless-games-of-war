@@ -6,9 +6,10 @@
 #   K(s, t): player 1 (ABBCADBE)^s ABBC, player 2 DE (ABBCCDDE)^t.
 #   F(r, k): player 1 (ABBC)^k U_r, player 2 V_r (ABBC)^k W_r, with U_r = prod_{i=0..r-1} A (D+2i) B (E+2i),
 #            V_r = DE + 2r, W_r = prod_{i=0..r} (CDDE + 2i), where w + d moves every letter of w d letters down.
-# At the end the numbered cycles of all members with n <= 38 (every letter beating every later letter) are played in full
-# to count their categories under Spivey's numerical labeling (Section 3 of his paper: a card is one category below
-# the highest-ranked card it loses to).
+# Then the numbered cycles of all members with n <= 38 (every letter beating every later letter) are played in full
+# to count their categories under both labelings, ours and Spivey's numerical one (Section 3 of his paper: a card is
+# one category below the highest-ranked card it loses to). Last, each cycle of F(r, k) with r, k <= 4 is shown to be
+# reachable from a deal.
 from math import lcm
 LET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ORD = {c: i for i, c in enumerate(LET)}
