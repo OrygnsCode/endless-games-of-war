@@ -11,7 +11,7 @@ cycle with the players exchanged}.
 | `canonical_positions.tsv` | for each n: the (n-1)! (n-1) positions in which player 1's top card is n, how many of them lead into a cycle, how many lie on one, and the number of cycles |
 | `odd_n_cycles.tsv` | odd n up to 41: the number of cycles from the formula for odd n, the split by length, and the canonical positions on a cycle |
 | `spivey_type_cycles.tsv` | even n up to 46: the number of cycles of Spivey's Theorem-3 type, with the split by length (for odd n every cycle is of that type, so `odd_n_cycles.tsv` has them) |
-| `loser_first.tsv` | the same count when the losing card goes under the winner's pile first, n = 1..15 |
+| `loser_first.tsv` | the same count when the losing card goes under the winner's pile first, n = 1..15 (A400868) |
 | `long_runs.txt` | the final output lines of the runs for n = 13 to 17, including the two full runs for a(17), as the programs printed them |
 | `doubled_bases.txt` | every letter position (m = 7 and 11 cards, four to six different letters, every word and every split) whose doubling is a cycle not of Spivey's Theorem-3 type, as `cpu/base_enum.c` lists them; `families/classify_doubled.py` reads it |
 | `sampler_n22_list.txt` | the output of `cpu/sampler 22 10000000 8 22 pos 20000000 list`: for each of the 318 sampled 22-card positions that reach a cycle not of Theorem-3 type, its sample number and a position on that cycle; `families/more_families.py` reads it |

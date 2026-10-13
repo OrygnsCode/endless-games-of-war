@@ -131,8 +131,9 @@ The other programs look at the cycles themselves:
 
 `cpu/loser_first.c` counts the deals that never end when the losing card goes under the
 winner's pile first, as do `gpu/war_gpu.py --rule 1`, `gpu/war_gpu_floyd.py --loser-first`
-and `cpu/war.cpp` with mode 1 (`data/loser_first.tsv`). With this rule no position of 16 cards
-cycles either: both GPU programs scanned every canonical position (`data/long_runs.txt`).
+and `cpu/war.cpp` with mode 1 (`data/loser_first.tsv`; OEIS [A400868](https://oeis.org/A400868)).
+With this rule no position of 16 cards cycles either: both GPU programs scanned every canonical
+position (`data/long_runs.txt`).
 
 Several checks are written two or three times, in different ways, so that a mistake in one
 shows up as a disagreement: `cpu/base_search.c` and `base_enum.c` (the search over letter
