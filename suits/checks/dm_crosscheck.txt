@@ -1,0 +1,40 @@
+The checks checks/replay_records.py and checks/stack_checks.py, run with the cycle search done by the program of
+Delahaye and Mathieu instead: bataille.py from https://github.com/cristal-smac/bataille at commit 7bae48e. That
+program is GPL-3.0, so it is not included here. The only change is that war_engine.play_to_cycle is replaced by
+
+    import io, contextlib
+    from bataille import jouer_partie
+
+    def play_to_cycle(p1, p2, limit=10 ** 7):
+        with contextlib.redirect_stdout(io.StringIO()):
+            r = jouer_partie(list(p1), list(p2), 'naturelle', 'naturelle', limite_cartes_posees=limit)
+        return list(r[2]) if r[0] == 0 and r[1] == 0 and isinstance(r[2], tuple) else None
+
+The output below is identical, line for line, to the output of the two scripts as they are here.
+Recorded 2026-10-15.
+
+$ python replay_records.py   (cycle search: jouer_partie of bataille.py)
+V3 (19)      12 cards: lap    19 tricks,    26 pairs turned,    6 battles, not aligned
+V4 #1        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #2        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #3        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #4        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V6 (36)      24 cards: lap    36 tricks,    48 pairs turned,   12 battles, ALIGNED, phase 9 tricks
+V8 (48)      32 cards: lap    48 tricks,    64 pairs turned,   16 battles, ALIGNED, phase 12 tricks
+V11 Courbet  44 cards: lap  1152 tricks,  1152 pairs turned,    0 battles, not aligned
+$ python stack_checks.py   (cycle search: jouer_partie of bataille.py)
+1. stacking
+   16 then 24 cards (values 1-4, 5-10)      cycle of 60 tricks
+   24 then 16 cards                         cycle of 60 tricks
+   24 low, 16 high                          cycle of 60 tricks
+   16 on itself (same values)               cycle of 48 tricks
+   16 on another 16 (same values)           cycle of 48 tricks
+   (2,2,4) atom on {1,2,3} + on {1,2,4}     cycle of 24 tricks
+2. every 4|4 deal of the 8-card atom patterns
+   (2, 2, 4)       420 ordered deals, cycling: {'lap 12, aligned': 26}
+   (1, 1, 2, 4)    840 ordered deals, cycling: {'lap 12, aligned': 56}
+   (2, 1, 1, 4)    840 ordered deals, cycling: {'lap 12, aligned': 70}
+   (1, 1, 1, 1, 4) 1680 ordered deals, cycling: {'lap 12, aligned': 164}
+3. 12-card aligned loops with a 5-copy value (no 4-copy limit)
+   [2, 1, 3, 2, 3, 1] | [4, 3, 3, 2, 2, 2]  counts {1: 2, 2: 5, 3: 4, 4: 1}: cycle of 9 tricks, 2 battles, ALIGNED, phase 4 tricks
+   [2, 1, 3, 3, 1, 1] | [3, 1, 2, 2, 3, 3]  counts {1: 4, 2: 3, 3: 5}: cycle of 7 tricks, 3 battles, ALIGNED, phase 5 tricks

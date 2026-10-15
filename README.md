@@ -145,6 +145,15 @@ positions); `families/doubled_phases.py`, `doubled_check.py` and
 `counting/odd_count.py`: it plays every way of filling the slots until the game ends or
 repeats, not only for one cycle length.
 
+## Decks with suits
+
+`suits/` holds the programs and data for the section *Decks with suits* of the paper, where the
+deck has several cards of each value and equal cards start a battle. Among them: under the
+battle rules of Delahaye and Mathieu (see `suits/README.md`), every deal of the 20-card deck of
+5 values in 4 suits (152,770,174,200 games, counted up to exchanging the players) is played to
+its end, and none goes on forever. `suits/RESULTS.txt` gives the command
+and output of every search; `suits/README.md` describes the rules and the programs.
+
 ## Layout
 
 ```
@@ -154,6 +163,7 @@ reference/   plain Python simulators, straight from the rule
 counting/    the cycle counts for odd n and for Spivey's kind, and their checks
 families/    the cycles that are not of Spivey's kind: construction and checks
 cycles/      tools for single cycles: categories, cycle lengths, the canonical-position check
+suits/       decks with several cards of each value, where equal cards start a battle (see suits/README.md)
 figures/     the scripts for the figures in the paper
 data/        the results (see data/README.md)
 ```

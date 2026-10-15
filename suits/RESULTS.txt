@@ -1,0 +1,530 @@
+Output of the searches in this directory, as the programs print it. Each block gives the command (bash, run from
+this directory), then its output. Written by make_results.py on 2026-10-15.
+
+== Sources: md5 of every program and script in this directory
+19fab83947cdb675b1e701bdcc713279  atoms.py
+305ef2057d242cf2d53bc37595009c48  battles.cpp
+14d17a404f340e105a6bedd76f195da6  make_results.py
+f57aec4bad9cc0c306cb3e750150c39d  make_results_C.py
+cca8172dcde19859537b4956f2520237  run_parts.py
+bc69e677a9d3575f5a1c9930556a1513  shape_orbits.py
+476964c37d7d86d3dfcf917d759cd647  shapes.cpp
+89c8f8535ad9f5cc7b6795d4dc137ddf  battle_free/spivey52_meetings.py
+a4cbac7310c58e009d062edde0f5f11e  battle_free/t3_meetings.py
+9e6960a6dbf857f85c668d3668c063e2  battle_free/tie_free_assign.py
+035aecfe0d6d1b27053109309114a11b  checks/phase_orbits.py
+bcbf422a1168d8f4d60acd4ae699161d  checks/replay_records.py
+4218fe1f21e2aba50f8dc8f6b1d00e61  checks/stack_checks.py
+791d87645fc776d9cb2082fccf20800a  checks/war_engine.py
+6385ce09fd96f80f3bd1beebb424a926  theorem3/courbet44.py
+1de8d6634617c268838b73d9c7c1845c  theorem3/spivey52.py
+27bc8929b8872d67e90d408cef9744d1  theorem3/t3_routes.py
+fb11ec01283286101b7837ec43bd4b72  theorem3/t3_suits.py
+
+== Compiler
+$ g++ --version | head -1
+g++.exe (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r4) 16.1.0
+
+== Every deal of V = 2, 3, 4 values in 4 suits, swap-halved. Delahaye and Mathieu (records_C4_naturelle.py) list: 38, 17,370 and 31,532,760 games; 0, 360 and 8545 that never end; one cycle of 19 tricks (not aligned) and 4 of 24 (aligned); longest games with a winner 4, 37 and 142 tricks (8, 54 and 192 cards)
+$ for v in 2 3 4; do ./battles $v 4 0 4 1; done
+V=2 C=4 mode=naturelle chunks 0..4 of 4 (prefix 2) half=1  plays=38
+  ordered deals=70 symmetric=6 games up to swap=38
+  cycling: ordered 0, up to swap 0   ending: 54   draws: 16
+  longest game with a winner: 8 cards turned over in 4 tricks (most tricks in any finite game 5)
+  deal: 1 1 2 2 |1 2 2 1
+  cycle lengths in tricks (ordered deals):
+  distinct cycles up to swapping players: 0
+  aligned cycles: 0 of 0
+V=3 C=4 mode=naturelle chunks 0..9 of 9 (prefix 2) half=1  plays=17370
+  ordered deals=34650 symmetric=90 games up to swap=17370
+  cycling: ordered 720, up to swap 360   ending: 33158   draws: 772
+  longest game with a winner: 54 cards turned over in 37 tricks (most tricks in any finite game 37)
+  deal: 2 1 3 1 3 2 |2 3 3 1 1 2
+  cycle lengths in tricks (ordered deals): 19:720
+  distinct cycles up to swapping players: 1
+   lap 19 tricks, 26 pairs turned, 6 battles, not aligned, 720 deals; least state: 3 3 | 1 1 2 2 2 1 2 1 3 3
+  aligned cycles: 0 of 1
+V=4 C=4 mode=naturelle chunks 0..16 of 16 (prefix 2) half=1  plays=31532760
+  ordered deals=63063000 symmetric=2520 games up to swap=31532760
+  cycling: ordered 17090, up to swap 8545   ending: 62934764   draws: 111146
+  longest game with a winner: 192 cards turned over in 142 tricks (most tricks in any finite game 145)
+  deal: 1 3 1 4 2 2 1 4 |1 3 3 4 2 3 4 2
+  cycle lengths in tricks (ordered deals): 24:17090
+  distinct cycles up to swapping players: 4
+   lap 24 tricks, 32 pairs turned, 8 battles, ALIGNED (phase 6 tricks), 2216 deals; least state: 3 3 2 1 4 4 | 2 1 4 2 4 1 2 1 3 3
+      aligned from: 2 1 4 4 3 2 3 1 | 4 2 4 1 2 1 3 3
+   lap 24 tricks, 32 pairs turned, 8 battles, ALIGNED (phase 6 tricks), 1536 deals; least state: 3 3 2 1 4 4 | 3 1 4 2 4 1 3 2 2 1
+      aligned from: 2 1 4 4 3 1 3 3 | 4 2 4 1 3 2 2 1
+   lap 24 tricks, 32 pairs turned, 8 battles, ALIGNED (phase 6 tricks), 7042 deals; least state: 3 3 4 1 4 4 | 3 1 4 2 2 1 3 2 2 1
+      aligned from: 4 1 4 4 3 1 3 3 | 4 2 2 1 3 2 2 1
+   lap 24 tricks, 32 pairs turned, 8 battles, ALIGNED (phase 6 tricks), 6296 deals; least state: 3 3 4 2 2 1 | 2 1 4 1 4 4 2 1 3 3
+      aligned from: 4 2 2 1 3 2 3 1 | 4 1 4 4 2 1 3 3
+  aligned cycles: 4 of 4
+
+== V = 4 without the halving gives the same classes
+$ ./battles 4 4 0 4 0 | sed -n 1,3p
+V=4 C=4 mode=naturelle chunks 0..16 of 16 (prefix 2) half=0  plays=63063000
+  ordered deals=63063000 symmetric=2520 games up to swap=31532760
+  cycling: ordered 17090, up to swap 8545   ending: 62934764   draws: 111146
+
+== One suit, 10 cards: the deals that never end are A400411(10) = 395,940
+$ ./battles 10 1 0 4 1 | sed -n 1,3p
+V=10 C=1 mode=naturelle chunks 0..90 of 90 (prefix 2) half=1  plays=1814400
+  ordered deals=3628800 symmetric=0 games up to swap=1814400
+  cycling: ordered 395940, up to swap 197970   ending: 3232860   draws: 0
+
+== Aligned loops on every multiset of N = 2..10 cards with at most 4 copies of a value, every deal
+$ for n in 2 4 6 8 10; do ./battles M $n 4; done
+atoms N=2: 2 of 2 patterns, 2 deals tested (swap-halved), 0 reach an aligned orbit
+ALL PATTERNS DONE
+atoms N=4: 8 of 8 patterns, 39 deals tested (swap-halved), 0 reach an aligned orbit
+ALL PATTERNS DONE
+atoms N=6: 29 of 29 patterns, 2341 deals tested (swap-halved), 0 reach an aligned orbit
+ALL PATTERNS DONE
+atoms N=8: 108 of 108 patterns, 271598 deals tested (swap-halved), 54 reach an aligned orbit
+ pattern (1,1,1,1,4):
+  distinct phase orbits (up to swap) 2, on 2 distinct game cycles
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 12 deals; least state: 5 5 | 3 1 4 2 5 5
+      aligned from: 5 3 5 1 | 4 2 5 5
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 12 deals; least state: 5 5 | 4 1 3 2 5 5
+      aligned from: 5 4 5 1 | 3 2 5 5
+  aligned cycles: 2 of 2
+ pattern (1,1,2,4):
+  distinct phase orbits (up to swap) 1, on 1 distinct game cycles
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 12 deals; least state: 4 4 | 3 1 3 2 4 4
+      aligned from: 4 3 4 1 | 3 2 4 4
+  aligned cycles: 1 of 1
+ pattern (2,1,1,4):
+  distinct phase orbits (up to swap) 2, on 2 distinct game cycles
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 6 deals; least state: 4 4 | 2 1 3 1 4 4
+      aligned from: 4 2 4 1 | 3 1 4 4
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 6 deals; least state: 4 4 | 3 1 2 1 4 4
+      aligned from: 4 3 4 1 | 2 1 4 4
+  aligned cycles: 2 of 2
+ pattern (2,2,4):
+  distinct phase orbits (up to swap) 1, on 1 distinct game cycles
+   lap 12 tricks, 16 pairs turned, 4 battles, ALIGNED (phase 3 tricks), 6 deals; least state: 3 3 | 2 1 2 1 3 3
+      aligned from: 3 2 3 1 | 2 1 3 3
+  aligned cycles: 1 of 1
+ALL PATTERNS DONE
+atoms N=10: 401 of 401 patterns, 50759850 deals tested (swap-halved), 0 reach an aligned orbit
+ALL PATTERNS DONE
+
+== The same for N = 12 (1,490 count patterns): the merged result file
+$ cp data/atoms12.patterns $TMP/atoms12.patterns && ./battles M 12 4 $TMP/atoms12.patterns
+atoms N=12: 1490 of 1490 patterns, 13915366770 deals tested (swap-halved), 0 reach an aligned orbit
+ALL PATTERNS DONE
+
+== The shape search, exact over every multiset with at most 4 copies of a value: 8 cards (one structure, period 4), 12 cards (none), 16 cards (period 4: the 4 stacks of two 8-card atoms; periods 3 and 5: none)
+$ for k in 1 2 4 8; do ./shapes 8 $k 0 3 | grep -v "^  phase"; done; ./shapes 8 2 1 3 | grep -v "^  phase"; for k in 1 2 3 4 8; do ./shapes 12 $k 0 3 | grep -v "^  phase"; done; for k in 3 4 5; do ./shapes 16 $k 0 8 | grep -v "^  phase"; done
+shapes N=8 k=1 closure=identity: 9 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..1: 0
+shapes N=8 k=2 closure=identity: 41 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 7 0
+shapes N=8 k=4 closure=identity: 1145 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..4: 7 46 151 1
+  forced classes by height 1,1/1,1/4; height-labelled deal: 2 1 3 3 | 3 2 3 1   [1 sequences]
+shapes N=8 k=8 closure=identity: 2698 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..8: 7 46 151 145 61 16 5 1
+  forced classes by height 1,1/1,1/4; height-labelled deal: 2 1 3 3 | 3 2 3 1   [1 sequences]
+shapes N=8 k=2 closure=swap: 45 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 7 1
+  forced classes by height 2/1,1/4; height-labelled deal: 2 1 3 3 | 3 2 3 1   [1 sequences]
+shapes N=12 k=1 closure=identity: 17 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..1: 0
+shapes N=12 k=2 closure=identity: 360 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 53 0
+shapes N=12 k=3 closure=identity: 10643 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..3: 53 1750 0
+shapes N=12 k=4 closure=identity: 149986 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..4: 53 1750 22548 0
+shapes N=12 k=8 closure=identity: 1184047 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..8: 53 1750 22548 43069 28300 8597 1333 0
+shapes N=16 k=3 closure=identity: 477506 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..3: 419 80160 0
+shapes N=16 k=4 closure=identity: 35839674 nodes, 4 shape sequences realisable, 4 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..4: 419 80160 5566616 4
+  forced classes by height 1,1,1,1/1,1,1,1/4,4; height-labelled deal: 2 1 3 3 2 1 3 3 | 3 2 3 1 3 2 3 1   [1 sequences]
+  forced classes by height 1,1,1,1/1,1,1,1/4,4; height-labelled deal: 2 1 3 3 3 1 3 3 | 3 2 3 1 3 2 2 1   [1 sequences]
+  forced classes by height 1,1,1,1/1,1,1,1/4,4; height-labelled deal: 2 1 3 3 3 2 2 1 | 3 2 3 1 3 1 3 3   [1 sequences]
+  forced classes by height 1,1,1,1/1,1,1,1/4,4; height-labelled deal: 2 1 3 3 3 2 3 1 | 3 2 3 1 2 1 3 3   [1 sequences]
+shapes N=16 k=5 closure=identity: 440422153 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..5: 419 80160 5566616 42131674 0
+
+== Shape search, 20 cards, phase periods 1, 2, 3 (and 2 with the players exchanged)
+$ for k in 1 2 3; do ./shapes 20 $k 0 3 | grep -v "^  phase"; done; ./shapes 20 2 1 3 | grep -v "^  phase"
+shapes N=20 k=1 closure=identity: 30 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..1: 0
+shapes N=20 k=2 closure=identity: 25473 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 3401 0
+shapes N=20 k=3 closure=identity: 22731025 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..3: 3401 3814938 0
+shapes N=20 k=2 closure=swap: 26307 nodes, 0 shape sequences realisable, 0 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 3401 0
+
+== Shape search, 20 cards, phase periods 4 and 5, run in 4 parts (python run_parts.py ./shapes 20 k 0 4 8 data/shapes20_periodk); totals over the part files, each subtree counted once
+$ for k in 4 5; do cat data/shapes20_period${k}_?.txt | awk -v k=$k '/^prefix/ {if ($2 in s) d++; else {s[$2]=1; c++; n+=$3; q+=$4}} /prefixes seen/ {p=$NF} END {printf "period %d: subtrees %d of %d, repeated %d, nodes %.0f, realisable shape sequences %d\n", k, c, p, d, n, q}'; done
+period 4: subtrees 2033 of 2033, repeated 0, nodes 8922234782, realisable shape sequences 0
+period 5: subtrees 2033 of 2033, repeated 0, nodes 349488351381, realisable shape sequences 0
+
+== Without the 4-copy limit (SHAPES_CAP) aligned loops exist at 8, 12 and 20 cards, each with 5 or more copies of a value
+$ SHAPES_CAP=8 ./shapes 8 1 0 3 | grep -v "^  phase"; for k in 2 4; do SHAPES_CAP=12 ./shapes 12 $k 0 3 | grep -v "^  phase"; done; for k in 1 2 3; do SHAPES_CAP=20 ./shapes 20 $k 0 3 | grep -v "^  phase"; done
+shapes N=8 k=1 closure=identity: 10 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..1: 1
+  forced classes by height 2/5/1; height-labelled deal: 2 1 2 2 | 3 2 2 1   [1 sequences]
+shapes N=12 k=2 closure=identity: 412 nodes, 2 shape sequences realisable, 2 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 53 2
+  forced classes by height 1,1/5/4/1; height-labelled deal: 2 1 3 2 3 1 | 4 3 3 2 2 2   [1 sequences]
+  forced classes by height 4/3/5; height-labelled deal: 2 1 3 3 1 1 | 3 1 2 2 3 3   [1 sequences]
+shapes N=12 k=4 closure=identity: 156005 nodes, 2 shape sequences realisable, 2 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..4: 53 1750 23347 2
+  forced classes by height 1,1/5/4/1; height-labelled deal: 2 1 3 2 3 1 | 4 3 3 2 2 2   [1 sequences]
+  forced classes by height 4/3/5; height-labelled deal: 2 1 3 3 1 1 | 3 1 2 2 3 3   [1 sequences]
+shapes N=20 k=1 closure=identity: 232 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..1: 1
+  forced classes by height 5/3,3/8/1; height-labelled deal: 3 2 1 1 2 1 3 2 3 3 | 4 3 3 2 3 1 2 1 3 2   [1 sequences]
+shapes N=20 k=2 closure=identity: 39390 nodes, 19 shape sequences realisable, 17 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..2: 3401 19
+  forced classes by height 9/10/1; height-labelled deal: 2 1 1 1 2 2 2 1 2 2 | 2 1 2 2 1 1 3 1 2 1   [2 sequences]
+  forced classes by height 1,7/10/1,1; height-labelled deal: 2 1 1 1 2 2 2 1 3 2 | 2 1 2 2 3 2 1 1 2 1   [1 sequences]
+  forced classes by height 1,1,1,1/5,5/1,4/1; height-labelled deal: 2 1 2 2 2 1 3 2 3 1 | 3 2 2 1 4 3 3 2 2 2   [1 sequences]
+shapes N=20 k=3 closure=identity: 23388998 nodes, 1 shape sequences realisable, 1 distinct loops (orbit rotation and swap identified)
+  partial orbits reaching the end of phase 1..3: 3401 3814938 1
+  forced classes by height 5/1,1,1,1,1,1/8/1; height-labelled deal: 3 2 1 1 2 1 3 2 3 3 | 4 3 3 2 3 1 2 1 3 2   [1 sequences]
+
+== Random deals are a poor test for aligned loops: at 6 and 8 values, where aligned loops exist, they are rarely hit
+$ ./battles q 6 4 0 4 50000000 3 | sed -n 1,3p; ./battles q 8 4 0 4 50000000 3 | sed -n 1,3p; ./battles q 7 4 0 4 200000000 11 | sed -n 1,3p; ./battles r 7 4 0 4 20000000 7 | sed -n 1,4p
+aligned search, random V=6 C=4 mode=naturelle samples=50000000 seed=3
+  deals tested 50000000; reach a periodic phase orbit 1; periodic themselves 0; capped at 4194304 phases 0
+  distinct phase orbits (up to swap) 1, on 1 distinct game cycles
+aligned search, random V=8 C=4 mode=naturelle samples=50000000 seed=3
+  deals tested 50000000; reach a periodic phase orbit 0; periodic themselves 0; capped at 4194304 phases 0
+  distinct phase orbits (up to swap) 0, on 0 distinct game cycles
+aligned search, random V=7 C=4 mode=naturelle samples=200000000 seed=11
+  deals tested 200000000; reach a periodic phase orbit 0; periodic themselves 0; capped at 4194304 phases 0
+  distinct phase orbits (up to swap) 0, on 0 distinct game cycles
+random V=7 C=4 mode=naturelle samples=20000000 seed=7: cycling 1, ending 19999999, draws 0
+  cycle lengths in tricks (deals): 52:1
+  distinct cycles up to swapping players: 1
+   lap 52 tricks, 56 pairs turned, 4 battles, not aligned, 1 deals; least state: 7 3 7 4 5 3 | 2 2 4 2 7 5 6 2 6 4 5 3 7 5 1 1 6 1 6 4 3 1
+
+== Every deal of 5 values in 4 suits (20 cards; 20!/4!^5 = 305,540,235,000 deals, 152,770,174,200 up to exchanging the players): aligned loops (mode A) and every game played to its end (mode F), the merged result files
+$ cp data/v5_aligned.chunks $TMP/v5_aligned.chunks && ./battles A 5 4 0 4 6 $TMP/v5_aligned.chunks | grep -v resuming && cp data/v5_full.chunks $TMP/v5_full.chunks && ./battles F 5 4 0 4 6 $TMP/v5_full.chunks | grep -v resuming
+aligned job V=5 C=4: chunks 15500 of 15500; deals tested (swap-halved) 152770174200; reach a periodic phase orbit 0; periodic 0; capped 0
+  distinct phase orbits (up to swap) 0, on 0 distinct game cycles
+  aligned cycles: 0 of 0
+ALL CHUNKS DONE
+full job V=5 C=4: chunks 15500 of 15500; plays 152770174200; ordered deals 305540235000, games up to swap 152770174200
+  cycling: ordered 0, up to swap 0   ending: 305523870056   draws: 16364944
+  longest game with a winner: 562 cards turned over in 453 tricks (most tricks in any finite game 453)
+  deal: 1 1 1 2 1 5 3 4 4 5 |2 3 5 3 4 5 2 3 4 2
+  cycle lengths in tricks (ordered deals):
+  distinct cycles up to swapping players: 0
+  aligned cycles: 0 of 0
+ALL CHUNKS DONE
+
+== The battle-free route: Spivey's 52-card deal and the Theorem-3 cycles (uses ../counting/t3_count.py)
+$ python battle_free/spivey52_meetings.py; python battle_free/t3_meetings.py 20,4 28,4 36,4 40,8 44,4 52,4; python battle_free/tie_free_assign.py 20,4 28,4 36,4 44,4 52,4
+category sizes: {'A': 6, 'B': 19, 'C': 20, 'D': 7}  letters in deal: Counter({'C': 20, 'B': 19, 'D': 7, 'A': 6})
+cycle length 31920 (Spivey: 31,920)
+same-rank meetings in one cycle (would be battles in real War): {13: 280, 3: 171, 8: 126} total 577
+A-B pairs that meet: 114 of 114
+B-C pairs that meet: 380 of 380
+C-D pairs that meet: 140 of 140
+A-C pairs that meet: 0 of 120
+B-D pairs that meet: 0 of 133
+A-D pairs that meet: 0 of 42
+n=20 (a,b)=(1,1) L=672 categories 4 sizes [2, 7, 8, 3]  meetings A-B 14/14  B-C 56/56  C-D 24/24
+n=28 (a,b)=(1,2) L=480 categories 4 sizes [3, 10, 11, 4]  meetings A-B 20/30  B-C 50/110  C-D 32/44
+n=28 (a,b)=(2,1) L=480 categories 4 sizes [3, 10, 11, 4]  meetings A-B 20/30  B-C 50/110  C-D 32/44
+n=36 (a,b)=(1,3) L=12480 categories 4 sizes [4, 13, 14, 5]  meetings A-B 52/52  B-C 182/182  C-D 70/70
+n=36 (a,b)=(2,2) L=7280 categories 4 sizes [4, 13, 14, 5]  meetings A-B 52/52  B-C 182/182  C-D 70/70
+n=36 (a,b)=(3,1) L=12480 categories 4 sizes [4, 13, 14, 5]  meetings A-B 52/52  B-C 182/182  C-D 70/70
+n=40 (a,b)=(1,1) L=7920 categories 5 sizes [2, 9, 15, 11, 3]  meetings A-B 18/18  B-C 135/135  C-D 165/165  D-E 33/33
+n=44 (a,b)=(1,4) L=13440 categories 4 sizes [5, 16, 17, 6]  meetings A-B 32/80  B-C 192/272  C-D 72/102
+n=44 (a,b)=(2,3) L=1152 categories 4 sizes [5, 16, 17, 6]  meetings A-B 64/80  B-C 176/272  C-D 42/102
+n=44 (a,b)=(3,2) L=1152 categories 4 sizes [5, 16, 17, 6]  meetings A-B 64/80  B-C 176/272  C-D 42/102
+n=44 (a,b)=(4,1) L=13440 categories 4 sizes [5, 16, 17, 6]  meetings A-B 32/80  B-C 192/272  C-D 72/102
+n=52 (a,b)=(1,5) L=127680 categories 4 sizes [6, 19, 20, 7]  meetings A-B 114/114  B-C 380/380  C-D 140/140
+n=52 (a,b)=(2,4) L=421344 categories 4 sizes [6, 19, 20, 7]  meetings A-B 114/114  B-C 380/380  C-D 140/140
+n=52 (a,b)=(3,3) L=31920 categories 4 sizes [6, 19, 20, 7]  meetings A-B 114/114  B-C 380/380  C-D 140/140
+n=52 (a,b)=(4,2) L=421344 categories 4 sizes [6, 19, 20, 7]  meetings A-B 114/114  B-C 380/380  C-D 140/140
+n=52 (a,b)=(5,1) L=127680 categories 4 sizes [6, 19, 20, 7]  meetings A-B 114/114  B-C 380/380  C-D 140/140
+n=20 (a,b)=(1,1) L=672: NO tie-free assignment
+n=28 (a,b)=(1,2) L=480: NO tie-free assignment
+n=28 (a,b)=(2,1) L=480: NO tie-free assignment
+n=36 (a,b)=(1,3) L=12480: NO tie-free assignment
+n=36 (a,b)=(2,2) L=7280: NO tie-free assignment
+n=36 (a,b)=(3,1) L=12480: NO tie-free assignment
+n=44 (a,b)=(1,4) L=13440: assignment FOUND; replay as real War: back to start after 13440 tricks, ties 0
+    P1: [11, 10, 10, 5, 10, 7, 5, 2]
+    P2: [6, 5, 5, 1, 11, 10, 9, 7, 9, 4, 7, 2, 11, 9, 9, 4, 8, 4, 4, 1, 11, 8, 8, 3, 8, 3, 3, 1, 7, 6, 6, 2, 6, 3, 2, 1]
+n=44 (a,b)=(2,3) L=1152: assignment FOUND; replay as real War: back to start after 1152 tricks, ties 0
+    P1: [11, 10, 10, 6, 10, 5, 6, 2, 10, 9, 9, 6, 9, 5, 5, 1]
+    P2: [9, 5, 4, 1, 11, 8, 8, 4, 8, 4, 4, 1, 11, 8, 7, 3, 7, 3, 3, 2, 11, 7, 7, 3, 6, 2, 2, 1]
+n=44 (a,b)=(3,2) L=1152: assignment FOUND; replay as real War: back to start after 1152 tricks, ties 0
+    P1: [11, 10, 7, 5, 10, 8, 5, 2, 11, 7, 10, 5, 7, 5, 4, 1, 11, 10, 7, 4, 9, 8, 4, 1]
+    P2: [6, 4, 3, 1, 11, 9, 9, 8, 9, 3, 3, 2, 8, 6, 6, 3, 6, 2, 2, 1]
+n=44 (a,b)=(4,1) L=13440: assignment FOUND; replay as real War: back to start after 13440 tricks, ties 0
+    P1: [11, 10, 10, 7, 10, 5, 7, 2, 11, 10, 9, 5, 9, 5, 5, 1, 11, 9, 9, 7, 8, 4, 4, 2, 8, 7, 6, 4, 6, 4, 2, 1]
+    P2: [8, 3, 3, 1, 11, 6, 8, 3, 6, 2, 3, 1]
+n=52 (a,b)=(1,5) L=127680: NO tie-free assignment
+n=52 (a,b)=(2,4) L=421344: NO tie-free assignment
+n=52 (a,b)=(3,3) L=31920: NO tie-free assignment
+n=52 (a,b)=(4,2) L=421344: NO tie-free assignment
+n=52 (a,b)=(5,1) L=127680: NO tie-free assignment
+
+== Every orbit of the phase map we know has period 4
+$ python checks/phase_orbits.py
+atom (2,2,4)       orbit length 4, F^2 = swap
+atom (1,1,1,1,4)   orbit length 4, F^None = swap
+atom (1,1,2,4)     orbit length 4, F^None = swap
+atom (2,1,1,4) a   orbit length 4, F^2 = swap
+atom (2,1,1,4) b   orbit length 4, F^2 = swap
+V4 #1              orbit length 4, F^2 = swap
+V4 #3              orbit length 4, F^2 = swap
+V6                 orbit length 4, F^2 = swap
+
+== Every loop listed in Delahaye and Mathieu's records file, played by the second engine (checks/war_engine.py)
+$ python checks/replay_records.py
+V3 (19)      12 cards: lap    19 tricks,    26 pairs turned,    6 battles, not aligned
+V4 #1        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #2        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #3        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #4        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V6 (36)      24 cards: lap    36 tricks,    48 pairs turned,   12 battles, ALIGNED, phase 9 tricks
+V8 (48)      32 cards: lap    48 tricks,    64 pairs turned,   16 battles, ALIGNED, phase 12 tricks
+V11 Courbet  44 cards: lap  1152 tricks,  1152 pairs turned,    0 battles, not aligned
+
+== Stacking, every deal of the 8-card atom patterns, and the 12-card loops with a 5-copy value, second engine
+$ python checks/stack_checks.py
+1. stacking
+   16 then 24 cards (values 1-4, 5-10)      cycle of 60 tricks
+   24 then 16 cards                         cycle of 60 tricks
+   24 low, 16 high                          cycle of 60 tricks
+   16 on itself (same values)               cycle of 48 tricks
+   16 on another 16 (same values)           cycle of 48 tricks
+   (2,2,4) atom on {1,2,3} + on {1,2,4}     cycle of 24 tricks
+2. every 4|4 deal of the 8-card atom patterns
+   (2, 2, 4)       420 ordered deals, cycling: {'lap 12, aligned': 26}
+   (1, 1, 2, 4)    840 ordered deals, cycling: {'lap 12, aligned': 56}
+   (2, 1, 1, 4)    840 ordered deals, cycling: {'lap 12, aligned': 70}
+   (1, 1, 1, 1, 4) 1680 ordered deals, cycling: {'lap 12, aligned': 164}
+3. 12-card aligned loops with a 5-copy value (no 4-copy limit)
+   [2, 1, 3, 2, 3, 1] | [4, 3, 3, 2, 2, 2]  counts {1: 2, 2: 5, 3: 4, 4: 1}: cycle of 9 tricks, 2 battles, ALIGNED, phase 4 tricks
+   [2, 1, 3, 3, 1, 1] | [3, 1, 2, 2, 3, 3]  counts {1: 4, 2: 3, 3: 5}: cycle of 7 tricks, 3 battles, ALIGNED, phase 5 tricks
+
+== The same two checks with the cycle search done by Delahaye and Mathieu's bataille.py (recorded; not re-run here)
+$ cat checks/dm_crosscheck.txt
+The checks checks/replay_records.py and checks/stack_checks.py, run with the cycle search done by the program of
+Delahaye and Mathieu instead: bataille.py from https://github.com/cristal-smac/bataille at commit 7bae48e. That
+program is GPL-3.0, so it is not included here. The only change is that war_engine.play_to_cycle is replaced by
+
+    import io, contextlib
+    from bataille import jouer_partie
+
+    def play_to_cycle(p1, p2, limit=10 ** 7):
+        with contextlib.redirect_stdout(io.StringIO()):
+            r = jouer_partie(list(p1), list(p2), 'naturelle', 'naturelle', limite_cartes_posees=limit)
+        return list(r[2]) if r[0] == 0 and r[1] == 0 and isinstance(r[2], tuple) else None
+
+The output below is identical, line for line, to the output of the two scripts as they are here.
+Recorded 2026-10-15.
+
+$ python replay_records.py   (cycle search: jouer_partie of bataille.py)
+V3 (19)      12 cards: lap    19 tricks,    26 pairs turned,    6 battles, not aligned
+V4 #1        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #2        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #3        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V4 #4        16 cards: lap    24 tricks,    32 pairs turned,    8 battles, ALIGNED, phase 6 tricks
+V6 (36)      24 cards: lap    36 tricks,    48 pairs turned,   12 battles, ALIGNED, phase 9 tricks
+V8 (48)      32 cards: lap    48 tricks,    64 pairs turned,   16 battles, ALIGNED, phase 12 tricks
+V11 Courbet  44 cards: lap  1152 tricks,  1152 pairs turned,    0 battles, not aligned
+$ python stack_checks.py   (cycle search: jouer_partie of bataille.py)
+1. stacking
+   16 then 24 cards (values 1-4, 5-10)      cycle of 60 tricks
+   24 then 16 cards                         cycle of 60 tricks
+   24 low, 16 high                          cycle of 60 tricks
+   16 on itself (same values)               cycle of 48 tricks
+   16 on another 16 (same values)           cycle of 48 tricks
+   (2,2,4) atom on {1,2,3} + on {1,2,4}     cycle of 24 tricks
+2. every 4|4 deal of the 8-card atom patterns
+   (2, 2, 4)       420 ordered deals, cycling: {'lap 12, aligned': 26}
+   (1, 1, 2, 4)    840 ordered deals, cycling: {'lap 12, aligned': 56}
+   (2, 1, 1, 4)    840 ordered deals, cycling: {'lap 12, aligned': 70}
+   (1, 1, 1, 1, 4) 1680 ordered deals, cycling: {'lap 12, aligned': 164}
+3. 12-card aligned loops with a 5-copy value (no 4-copy limit)
+   [2, 1, 3, 2, 3, 1] | [4, 3, 3, 2, 2, 2]  counts {1: 2, 2: 5, 3: 4, 4: 1}: cycle of 9 tricks, 2 battles, ALIGNED, phase 4 tricks
+   [2, 1, 3, 3, 1, 1] | [3, 1, 2, 2, 3, 3]  counts {1: 4, 2: 3, 3: 5}: cycle of 7 tricks, 3 battles, ALIGNED, phase 5 tricks
+
+== Second shape search (shape_orbits.py, written independently of shapes.cpp): 8 cards at periods 1, 2, 4 with and without the 4-copy limit (last argument 4 or 0); 12 cards at periods 1, 2, 4, 8 with the limit and 4 without
+$ for a in "8 1 4" "8 1 0" "8 2 4" "8 2 0" "8 4 4" "8 4 0" "12 1 4" "12 2 4" "12 4 4" "12 4 0" "12 8 4"; do echo "\$ python shape_orbits.py $a"; python shape_orbits.py $a; done
+$ python shape_orbits.py 8 1 4
+N=8 K=1 cap=4: 14 phase shapes, nodes per depth [1, 14], realisable shape sequences 0, 0 s
+$ python shape_orbits.py 8 1 0
+N=8 K=1 cap=0: 14 phase shapes, nodes per depth [1, 14], realisable shape sequences 2, 0 s
+  value class sizes [5, 2, 1]
+$ python shape_orbits.py 8 2 4
+N=8 K=2 cap=4: 14 phase shapes, nodes per depth [1, 14, 146], realisable shape sequences 0, 0 s
+$ python shape_orbits.py 8 2 0
+N=8 K=2 cap=0: 14 phase shapes, nodes per depth [1, 14, 146], realisable shape sequences 2, 0 s
+  value class sizes [5, 1, 1, 1]
+$ python shape_orbits.py 8 4 4
+N=8 K=4 cap=4: 14 phase shapes, nodes per depth [1, 14, 146, 702, 796], realisable shape sequences 4, 0 s
+  value class sizes [4, 1, 1, 1, 1]
+$ python shape_orbits.py 8 4 0
+N=8 K=4 cap=0: 14 phase shapes, nodes per depth [1, 14, 146, 702, 796], realisable shape sequences 6, 0 s
+  value class sizes [5, 1, 1, 1]
+  value class sizes [4, 1, 1, 1, 1]
+$ python shape_orbits.py 12 1 4
+N=12 K=1 cap=4: 106 phase shapes, nodes per depth [1, 106], realisable shape sequences 0, 0 s
+$ python shape_orbits.py 12 2 4
+N=12 K=2 cap=4: 106 phase shapes, nodes per depth [1, 106, 6068], realisable shape sequences 0, 0 s
+$ python shape_orbits.py 12 4 4
+N=12 K=4 cap=4: 106 phase shapes, nodes per depth [1, 106, 6068, 126730, 262614], realisable shape sequences 0, 97 s
+$ python shape_orbits.py 12 4 0
+N=12 K=4 cap=0: 106 phase shapes, nodes per depth [1, 106, 6068, 126730, 262614], realisable shape sequences 8, 95 s
+  value class sizes [5, 4, 3]
+  value class sizes [5, 4, 1, 1, 1]
+$ python shape_orbits.py 12 8 4
+N=12 K=8 cap=4: 106 phase shapes, nodes per depth [1, 106, 6068, 126730, 262614, 197326, 72574, 13618, 1664], realisable shape sequences 0, 522 s
+
+(The next blocks are written by make_results_C.py; its commands run from the folder named before them.)
+
+== Sources and versions
+$ md5 of the scripts; python and python-sat versions
+fb11ec01283286101b7837ec43bd4b72  theorem3/t3_suits.py
+27bc8929b8872d67e90d408cef9744d1  theorem3/t3_routes.py
+1de8d6634617c268838b73d9c7c1845c  theorem3/spivey52.py
+6385ce09fd96f80f3bd1beebb424a926  theorem3/courbet44.py
+19fab83947cdb675b1e701bdcc713279  atoms.py
+python 3.14.2, python-sat 1.9.dev15
+
+== Spivey's 52-card deal: cycle length, category sizes, and which categories meet
+$ cd theorem3; python spivey52.py
+letter period 8, numbered cycle 31920 turns
+category sizes A..D: [6, 19, 20, 7]
+  A beats B: 114 of 114 pairs meet
+  B beats C: 380 of 380 pairs meet
+  C beats D: 140 of 140 pairs meet
+other pairs that meet: 0
+
+== Courbet's 44-card loop under Delahaye and Mathieu's rules: cycle, ties, runs, categories, shape
+$ cd theorem3; python courbet44.py
+enters its cycle after 165 tricks (13 ties on the way); cycle of 1152 tricks, 0 ties on the cycle
+run lengths of wins: [4]
+category sizes: [5, 16, 17, 6]
+at the start of a block of player 1: player 1 holds 16 cards, so a = 2
+
+== Theorem-3 shapes with suits: level sizes, complete meeting, rankings with 2 and 4 suits
+$ cd theorem3; python t3_suits.py 28 44 52 60 76 92 68:1 68:2 68:4
+n=28 shape (1,2): level sizes [3, 10, 11, 4], complete: False, 2 suits: yes, 4 suits: no
+n=28 shape (2,1): level sizes [3, 10, 11, 4], complete: False, 2 suits: yes, 4 suits: no
+n=44 shape (1,4): level sizes [5, 16, 17, 6], complete: False, 2 suits: yes, 4 suits: yes
+n=44 shape (2,3): level sizes [5, 16, 17, 6], complete: False, 2 suits: yes, 4 suits: yes
+n=44 shape (3,2): level sizes [5, 16, 17, 6], complete: False, 2 suits: yes, 4 suits: yes
+n=44 shape (4,1): level sizes [5, 16, 17, 6], complete: False, 2 suits: yes, 4 suits: yes
+n=52 shape (1,5): level sizes [6, 19, 20, 7], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+n=52 shape (2,4): level sizes [6, 19, 20, 7], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+n=52 shape (3,3): level sizes [6, 19, 20, 7], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+n=52 shape (4,2): level sizes [6, 19, 20, 7], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+n=52 shape (5,1): level sizes [6, 19, 20, 7], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+n=60 shape (1,6): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: yes
+n=60 shape (2,5): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: no
+n=60 shape (3,4): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: no
+n=60 shape (4,3): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: no
+n=60 shape (5,2): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: no
+n=60 shape (6,1): level sizes [7, 22, 23, 8], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (1,8): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (2,7): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (3,6): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (4,5): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (5,4): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (6,3): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (7,2): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=76 shape (8,1): level sizes [9, 28, 29, 10], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (1,10): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (2,9): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: no
+n=92 shape (3,8): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (4,7): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: no
+n=92 shape (5,6): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (6,5): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (7,4): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: no
+n=92 shape (8,3): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=92 shape (9,2): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: no
+n=92 shape (10,1): level sizes [11, 34, 35, 12], complete: False, 2 suits: yes, 4 suits: yes
+n=68 shape (1,7): level sizes [8, 25, 26, 9], complete: False, 2 suits: no, 4 suits: no
+n=68 shape (2,6): level sizes [8, 25, 26, 9], complete: False, 2 suits: yes, 4 suits: yes
+n=68 shape (4,4): level sizes [8, 25, 26, 9], complete: True, 2 suits: no (complete), 4 suits: no (complete)
+
+== Route prediction against a full cycle, every shape with n = m * 2^v <= 124, 1 <= v <= 3
+$ cd theorem3; python t3_routes.py all 124
+n=10 m=5 v=1: 1:C
+n=14 m=7 v=1: 1:C 2:C
+n=18 m=9 v=1: 1:- 2:C 3:-
+n=22 m=11 v=1: 1:C 2:C 3:C 4:C
+n=26 m=13 v=1: 1:C 2:C 3:C 4:C 5:C
+n=30 m=15 v=1: 1:- 2:- 3:- 4:- 5:- 6:-
+n=34 m=17 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C
+n=38 m=19 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C
+n=42 m=21 v=1: 1:- 2:C 3:- 4:- 5:C 6:- 7:- 8:C 9:-
+n=46 m=23 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C
+n=50 m=25 v=1: 1:C 2:- 3:C 4:C 5:- 6:C 7:- 8:C 9:C 10:- 11:C
+n=54 m=27 v=1: 1:- 2:C 3:- 4:- 5:C 6:- 7:- 8:C 9:- 10:- 11:C 12:-
+n=58 m=29 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C
+n=62 m=31 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C
+n=66 m=33 v=1: 1:- 2:C 3:- 4:- 5:- 6:- 7:- 8:C 9:- 10:- 11:- 12:- 13:- 14:C 15:-
+n=70 m=35 v=1: 1:C 2:- 3:- 4:C 5:- 6:C 7:- 8:C 9:C 10:- 11:C 12:- 13:C 14:- 15:- 16:C
+n=74 m=37 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C
+n=78 m=39 v=1: 1:- 2:C 3:- 4:- 5:C 6:- 7:- 8:C 9:- 10:- 11:C 12:- 13:- 14:C 15:- 16:- 17:C 18:-
+n=82 m=41 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C
+n=86 m=43 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C 20:C
+n=90 m=45 v=1: 1:- 2:- 3:- 4:- 5:- 6:- 7:- 8:C 9:- 10:- 11:C 12:- 13:- 14:C 15:- 16:- 17:- 18:- 19:- 20:- 21:-
+n=94 m=47 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C 20:C 21:C 22:C
+n=98 m=49 v=1: 1:C 2:C 3:- 4:C 5:C 6:C 7:- 8:C 9:C 10:- 11:C 12:C 13:C 14:- 15:C 16:C 17:- 18:C 19:C 20:C 21:- 22:C 23:C
+n=102 m=51 v=1: 1:- 2:C 3:- 4:- 5:C 6:- 7:- 8:- 9:- 10:- 11:C 12:- 13:- 14:C 15:- 16:- 17:- 18:- 19:- 20:C 21:- 22:- 23:C 24:-
+n=106 m=53 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C 20:C 21:C 22:C 23:C 24:C 25:C
+n=110 m=55 v=1: 1:C 2:- 3:C 4:C 5:- 6:C 7:- 8:C 9:C 10:- 11:- 12:- 13:C 14:C 15:- 16:- 17:- 18:C 19:C 20:- 21:C 22:- 23:C 24:C 25:- 26:C
+n=114 m=57 v=1: 1:- 2:C 3:- 4:- 5:C 6:- 7:- 8:C 9:- 10:- 11:C 12:- 13:- 14:C 15:- 16:- 17:C 18:- 19:- 20:C 21:- 22:- 23:C 24:- 25:- 26:C 27:-
+n=118 m=59 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C 20:C 21:C 22:C 23:C 24:C 25:C 26:C 27:C 28:C
+n=122 m=61 v=1: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C 12:C 13:C 14:C 15:C 16:C 17:C 18:C 19:C 20:C 21:C 22:C 23:C 24:C 25:C 26:C 27:C 28:C 29:C
+n=20 m=5 v=2: 1:C
+n=28 m=7 v=2: 1:- 2:-
+n=36 m=9 v=2: 1:C 2:C 3:C
+n=44 m=11 v=2: 1:- 2:- 3:- 4:-
+n=52 m=13 v=2: 1:C 2:C 3:C 4:C 5:C
+n=60 m=15 v=2: 1:- 2:- 3:- 4:- 5:- 6:-
+n=68 m=17 v=2: 1:- 2:- 3:- 4:C 5:- 6:- 7:-
+n=76 m=19 v=2: 1:- 2:- 3:- 4:- 5:- 6:- 7:- 8:-
+n=84 m=21 v=2: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C
+n=92 m=23 v=2: 1:- 2:- 3:- 4:- 5:- 6:- 7:- 8:- 9:- 10:-
+n=100 m=25 v=2: 1:C 2:C 3:C 4:C 5:C 6:C 7:C 8:C 9:C 10:C 11:C
+n=108 m=27 v=2: 1:- 2:- 3:- 4:- 5:- 6:- 7:- 8:- 9:- 10:- 11:- 12:-
+n=116 m=29 v=2: 1:C 2:- 3:- 4:- 5:- 6:- 7:C 8:- 9:- 10:- 11:- 12:- 13:C
+n=124 m=31 v=2: 1:- 2:- 3:- 4:- 5:- 6:- 7:- 8:- 9:- 10:- 11:- 12:- 13:- 14:-
+n=40 m=5 v=3: 1:C
+n=56 m=7 v=3: 1:- 2:-
+n=72 m=9 v=3: 1:C 2:C 3:C
+n=88 m=11 v=3: 1:- 2:- 3:- 4:-
+n=104 m=13 v=3: 1:- 2:- 3:C 4:- 5:-
+n=120 m=15 v=3: 1:C 2:C 3:C 4:C 5:C 6:C
+561 shapes, 349 complete; predicted meeting counts wrong in 0, predicted completeness wrong in 0
+
+== Aligned loops and the 8-card atom (Delahaye and Mathieu's rules)
+$ python atoms.py
+(1) Delahaye-Mathieu aligned loops, split into blocks of 4 flips
+  4 values: F-period 4; F-periods of its 4-flip blocks on their own: [4, 4]
+  6 values: F-period 4; F-periods of its 4-flip blocks on their own: [4, 4, 4]
+  8 values: F-period 4; F-periods of its 4-flip blocks on their own: [4, 4, 4, 4]
+(2) base atom 4,2,5,5 | 5,3,5,1
+  F-period 4, phases of [3, 3, 3, 3] tricks, tied values [5]
+  lower cards w,x,y,z = 1,2,3,4 meet in the pairs [(1, 3), (1, 4), (2, 3), (2, 4)]
+(3) merging lower values of the base atom
+  (2,1,1,4): 8 aligned deals, all images of base deals: True
+  (1,1,2,4): 8 aligned deals, all images of base deals: True
+  (2,2,4): 4 aligned deals, all images of base deals: True
+  (1,2,1,4): 0 aligned deals, all images of base deals: True
+  base (1,1,1,1,4): 16 aligned deals
+(4) 5 copies of the value 2
+  2,1,3,2,3,1 | 4,3,3,2,2,2: aligned, F-period 2
+
